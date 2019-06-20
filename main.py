@@ -10,15 +10,18 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.tabPage = TabSample()
         self.ui.btnAddTab.clicked.connect(self.addTabClick)
 
     def addTabClick(self):
-        self.ui.tabWidget.addTab(self.tabPage, "New")
+        self.ui.tabWidget.addTab(TabSample(), "New")
 
 
 if __name__ == "__main__":
-    app = QApplication([])
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
+    try:
+        app = QApplication([])
+        window = MainWindow()
+        window.show()
+        sys.exit(app.exec_())
+    except Exception:
+        print ("error in main")
+        pass

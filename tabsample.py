@@ -7,3 +7,7 @@ class TabSample(QWidget):
         QWidget.__init__(self)
         self.ui = Ui_TabPage()
         self.ui.setupUi(self)
+        self.ui.btnTest.clicked.connect(self.test_clicked)
+
+    def test_clicked(self):
+        print ('clicked me')

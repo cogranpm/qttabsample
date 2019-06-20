@@ -3,8 +3,8 @@
 # Form implementation generated from reading ui file 'tab_page.ui',
 # licensing of 'tab_page.ui' applies.
 #
-# Created: Thu Jun 20 08:05:01 2019
-#      by: pyside2-uic  running on PySide2 5.12.2
+# Created: Thu Jun 20 16:50:58 2019
+#      by: pyside2-uic  running on PySide2 5.12.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -24,9 +24,9 @@ class Ui_TabPage(object):
         self.treeWidget.headerItem().setText(0, "1")
         self.groupBox = QtWidgets.QGroupBox(self.splitter)
         self.groupBox.setObjectName("groupBox")
-        self.pushButton = QtWidgets.QPushButton(self.groupBox)
-        self.pushButton.setGeometry(QtCore.QRect(20, 40, 88, 27))
-        self.pushButton.setObjectName("pushButton")
+        self.btnTest = QtWidgets.QPushButton(self.groupBox)
+        self.btnTest.setGeometry(QtCore.QRect(20, 40, 88, 27))
+        self.btnTest.setObjectName("btnTest")
         self.verticalLayout.addWidget(self.splitter)
 
         self.retranslateUi(TabPage)
@@ -35,5 +35,5 @@ class Ui_TabPage(object):
     def retranslateUi(self, TabPage):
         TabPage.setWindowTitle(QtWidgets.QApplication.translate("TabPage", "Form", None, -1))
         self.groupBox.setTitle(QtWidgets.QApplication.translate("TabPage", "GroupBox", None, -1))
-        self.pushButton.setText(QtWidgets.QApplication.translate("TabPage", "PushButton", None, -1))
+        self.btnTest.setText(QtWidgets.QApplication.translate("TabPage", "Test", None, -1))
 
