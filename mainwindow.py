@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Thu Jun 20 17:37:21 2019
+# Created: Thu Jun 27 12:28:09 2019
 #      by: pyside2-uic  running on PySide2 5.12.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -76,4 +76,5 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabTest), QtWidgets.QApplication.translate("MainWindow", "Loaded", None, -1))
         self.menuFile.setTitle(QtWidgets.QApplication.translate("MainWindow", "File", None, -1))
         self.actionQuit.setText(QtWidgets.QApplication.translate("MainWindow", "Quit", None, -1))
+        self.actionQuit.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
 

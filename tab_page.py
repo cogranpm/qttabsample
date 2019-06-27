@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'tab_page.ui',
 # licensing of 'tab_page.ui' applies.
 #
-# Created: Thu Jun 20 16:50:58 2019
+# Created: Thu Jun 27 12:27:28 2019
 #      by: pyside2-uic  running on PySide2 5.12.4
 #
 # WARNING! All changes made in this file will be lost!
