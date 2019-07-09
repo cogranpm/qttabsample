@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 import sys
 from PySide2.QtWidgets import QApplication, QMainWindow
-from PySide2.QtGui import QStandardItemModel, QStandardItem
+from PySide2.QtGui import QStandardItemModel, QStandardItem, QIcon
 from mainwindow import Ui_MainWindow
 from tabsample import TabSample
 
@@ -17,10 +17,18 @@ class MainWindow(QMainWindow):
         # model view approach for a tree
         self.navModel = QStandardItemModel()
         parent_item = self.navModel.invisibleRootItem()
-        parent_item.appendRow(QStandardItem("Frank"))
+
+        itemfrank = QStandardItem("Frank")
+        itemfrank.setIcon(QIcon("icons/braindump.png"))
+        parent_item.appendRow(itemfrank)
+
         nigel_item = QStandardItem("Nigel")
+        nigel_item.setIcon(QIcon("icons/braindump.png"))
         parent_item.appendRow(nigel_item)
+
         nigel_sub_item = QStandardItem("passport")
+        nigel_sub_item.setIcon(QIcon("icons/braindump.png"))
+
         nigel_item.appendRow(nigel_sub_item)
         self.ui.navTree.setModel(self.navModel)
 
