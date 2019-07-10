@@ -40,7 +40,7 @@ class NavigationItem:
         """ if the current instance is not the root, """
         """ which row does the current instance occupy in the parents list of children """
         if self._parent_item:
-            return self._parent_item.child_items.index(self)
+            return self._parent_item.child_items().index(self)
 
         return 0
 
@@ -49,6 +49,9 @@ class NavigationItem:
         if self._parent_item is None:
             return 0
         return self._parent_item
+
+    def child_items(self):
+        return self._child_items
 
 
 class NavigationModel(QAbstractItemModel):
@@ -62,13 +65,18 @@ class NavigationModel(QAbstractItemModel):
 
     def _setup_model_data(self):
         model_item = NavigationItem(["Models"], self._root_item)
+        self._root_item.append_child(model_item)
         project_item = NavigationItem(["Projects"], self._root_item)
+        self._root_item.append_child(project_item)
+        #subitem of model
+        data_model = NavigationItem(["Data Model"], model_item)
+        model_item.append_child(data_model)
 
     def flags(self, index: QModelIndex) -> Qt.ItemFlags:
         if not(index.isValid()):
             return Qt.ItemFlags.NoItemFlags
 
-        return super().flags(self, index)
+        return super().flags(index)
 
     def data(self, index, role):
         if not index.isValid():
