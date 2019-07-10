@@ -4,7 +4,7 @@ from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtGui import QStandardItemModel, QStandardItem, QIcon
 from mainwindow import Ui_MainWindow
 from tabsample import TabSample
-
+from models import NavigationItem, NavigationModel
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -14,8 +14,10 @@ class MainWindow(QMainWindow):
         self.ui.btnAddTab.clicked.connect(self.addTabClick)
         self.ui.actionQuit.triggered.connect(QApplication.quit)
 
-        # model view approach for a tree
+        # model view approach for a tree, using a default QStandardItemModel so far
+        # could implement QAbstractItemModel interface instead
         self.navModel = QStandardItemModel()
+        self.navModel.setHorizontalHeaderItem(0, QStandardItem("Name"))
         parent_item = self.navModel.invisibleRootItem()
 
         itemfrank = QStandardItem("Frank")
@@ -30,7 +32,13 @@ class MainWindow(QMainWindow):
         nigel_sub_item.setIcon(QIcon("icons/braindump.png"))
 
         nigel_item.appendRow(nigel_sub_item)
-        self.ui.navTree.setModel(self.navModel)
+
+        # view, navTree holds model instance, navModel
+        # self.ui.navTree.setModel(self.navModel)
+        self.ui.navTree.setModel(NavigationModel())
+        self.ui.navTree.setSortingEnabled(False)
+        #self.ui.navTree.show()
+
 
     def addTabClick(self):
         self.ui.tabWidget.addTab(TabSample(), "New")
