@@ -1,15 +1,17 @@
 """ module for all models in the program """
 from PySide2.QtCore import QAbstractItemModel, QModelIndex, QObject, Qt
+from PySide2.QtGui import QIcon
 
 
 class NavigationItem:
     """ is a recursive data structure (tree) """
 
-    def __init__(self, data, parent=None):
+    def __init__(self, data, parent=None, icon=None):
         """ _item_data is a list of any type, 1 item for each column, parent is not required """
         self._child_items = list()
         self._parent_item = parent
         self._item_data = data
+        self._icon_id = icon
 
     def append_child(self, child):
         """ child is of type navigationitem """
@@ -36,6 +38,10 @@ class NavigationItem:
 
         return self._item_data[column]
 
+    def icon(self):
+        if self._icon_id:
+            return QIcon("icons/" + self._icon_id)
+
     def row(self):
         """ if the current instance is not the root, """
         """ which row does the current instance occupy in the parents list of children """
@@ -56,21 +62,31 @@ class NavigationItem:
 
 class NavigationModel(QAbstractItemModel):
     """ is the Model class in the mvc framework for navigation items """
+    """ this is the way to have a completely custom mvc model for the mvc views """
 
     def __init__(self, parent: QObject = None):
         super().__init__(parent)
-        self._root_item = NavigationItem(["Root"])
+        self._root_item = NavigationItem(["Root"], None, None)
         # setup the model data here
         self._setup_model_data()
 
     def _setup_model_data(self):
-        model_item = NavigationItem(["Models"], self._root_item)
+        icon_id = "braindump.png"
+        model_item = NavigationItem(["Models"], self._root_item, icon_id)
         self._root_item.append_child(model_item)
-        project_item = NavigationItem(["Projects"], self._root_item)
+        project_item = NavigationItem(["Projects"], self._root_item, icon_id)
         self._root_item.append_child(project_item)
-        #subitem of model
-        data_model = NavigationItem(["Data Model"], model_item)
+        # subitem of model
+        data_model = NavigationItem(["Data Model"], model_item, icon_id)
         model_item.append_child(data_model)
+
+        # subitems of project
+        timekeeping = NavigationItem(["Timekeeping"], project_item, icon_id)
+        project_item.append_child(timekeeping)
+
+        # subitems of timekeeping, just a test thing
+        timecards = NavigationItem(["Timecards"], timekeeping, icon_id)
+        timekeeping.append_child(timecards)
 
     def flags(self, index: QModelIndex) -> Qt.ItemFlags:
         if not(index.isValid()):
@@ -82,11 +98,12 @@ class NavigationModel(QAbstractItemModel):
         if not index.isValid():
             return None
 
-        if role != Qt.ItemDataRole.DisplayRole:
-            return None
-
         item = index.internalPointer()
-        return item.data(index.column())
+        if role == Qt.ItemDataRole.DecorationRole:
+            return item.icon()
+
+        if role == Qt.ItemDataRole.DisplayRole:
+            return item.data(index.column())
 
     def headerData(self, section, orientation, role):
         if orientation == Qt.Orientation.Horizontal and role == Qt.ItemDataRole.DisplayRole:
@@ -97,7 +114,6 @@ class NavigationModel(QAbstractItemModel):
         if not index.isValid():
             return QModelIndex()
 
-        # not sure if this interalPointer thing will work in python
         child_item: NavigationItem = index.internalPointer()
         parent_item: NavigationItem = child_item.parent_item()
 
@@ -114,7 +130,6 @@ class NavigationModel(QAbstractItemModel):
         if not parent.isValid():
             parent_item = self._root_item
         else:
-            # note: I have no idea if this pointer thing will work in python
             parent_item = parent.internalPointer()
 
         child_item = parent_item.child(row)
