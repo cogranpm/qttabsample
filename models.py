@@ -94,6 +94,10 @@ class NavigationModel(QAbstractItemModel):
 
         return super().flags(index)
 
+
+
+        #return super().flags(index)
+
     def data(self, index, role):
         if not index.isValid():
             return None
@@ -101,9 +105,9 @@ class NavigationModel(QAbstractItemModel):
         item = index.internalPointer()
         if role == Qt.ItemDataRole.DecorationRole:
             return item.icon()
-
-        if role == Qt.ItemDataRole.DisplayRole:
+        elif role == Qt.ItemDataRole.DisplayRole:
             return item.data(index.column())
+        #ToolTipRole,
 
     def headerData(self, section, orientation, role):
         if orientation == Qt.Orientation.Horizontal and role == Qt.ItemDataRole.DisplayRole:

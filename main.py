@@ -2,6 +2,7 @@
 import sys
 from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtGui import QStandardItemModel, QStandardItem, QIcon
+from PySide2.QtCore import QItemSelectionModel
 from mainwindow import Ui_MainWindow
 from tabsample import TabSample
 from models import NavigationItem, NavigationModel
@@ -14,34 +15,24 @@ class MainWindow(QMainWindow):
         self.ui.btnAddTab.clicked.connect(self.addTabClick)
         self.ui.actionQuit.triggered.connect(QApplication.quit)
 
-        # model view approach for a tree, using a default QStandardItemModel so far
-        # could implement QAbstractItemModel interface instead
-        self.navModel = QStandardItemModel()
-        self.navModel.setHorizontalHeaderItem(0, QStandardItem("Name"))
-        parent_item = self.navModel.invisibleRootItem()
 
-        itemfrank = QStandardItem("Frank")
-        itemfrank.setIcon(QIcon("icons/braindump.png"))
-        parent_item.appendRow(itemfrank)
-
-        nigel_item = QStandardItem("Nigel")
-        nigel_item.setIcon(QIcon("icons/braindump.png"))
-        parent_item.appendRow(nigel_item)
-
-        nigel_sub_item = QStandardItem("passport")
-        nigel_sub_item.setIcon(QIcon("icons/braindump.png"))
-
-        nigel_item.appendRow(nigel_sub_item)
 
         # view, navTree holds model instance, navModel
         # self.ui.navTree.setModel(self.navModel)
         self.ui.navTree.setModel(NavigationModel())
         self.ui.navTree.setSortingEnabled(False)
+        self.selection_model = self.ui.navTree.selectionModel()
+        self.selection_model.selectionChanged.connect(self.navigationselected)
+
         #self.ui.navTree.show()
 
 
     def addTabClick(self):
         self.ui.tabWidget.addTab(TabSample(), "New")
+
+    def navigationselected(self, selected, deselected):
+        print(selected)
+        print(self.selection_model.selectedIndexes())
 
 
 if __name__ == "__main__":
