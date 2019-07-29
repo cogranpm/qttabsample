@@ -31,8 +31,9 @@ class MainWindow(QMainWindow):
         self.ui.tabWidget.addTab(TabSample(), "New")
 
     def navigationselected(self, selected, deselected):
-        print(selected)
-        print(self.selection_model.selectedIndexes())
+        items = selected.indexes()
+        for x in items:
+            print(x.data())
 
 
 if __name__ == "__main__":
