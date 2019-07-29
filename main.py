@@ -15,8 +15,6 @@ class MainWindow(QMainWindow):
         self.ui.btnAddTab.clicked.connect(self.addTabClick)
         self.ui.actionQuit.triggered.connect(QApplication.quit)
 
-
-
         # view, navTree holds model instance, navModel
         # self.ui.navTree.setModel(self.navModel)
         self.ui.navTree.setModel(NavigationModel())
@@ -42,6 +40,6 @@ if __name__ == "__main__":
         window = MainWindow()
         window.show()
         sys.exit(app.exec_())
-    except Exception:
-        print ("error in main")
+    except Exception as inst:
+        print("error in main: ", inst)
         pass

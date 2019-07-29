@@ -3,15 +3,21 @@ from PySide2.QtCore import QAbstractItemModel, QModelIndex, QObject, Qt
 from PySide2.QtGui import QIcon
 
 
+class NavigationItemData:
+    """ is an object that is used as the data for tree navigation items """
+
+    def __init__(self, display, icon):
+        self.display = display
+        self.icon = icon
+
 class NavigationItem:
     """ is a recursive data structure (tree) """
 
-    def __init__(self, data, parent=None, icon=None):
+    def __init__(self, data, parent=None):
         """ _item_data is a list of any type, 1 item for each column, parent is not required """
         self._child_items = list()
         self._parent_item = parent
         self._item_data = data
-        self._icon_id = icon
 
     def append_child(self, child):
         """ child is of type navigationitem """
@@ -36,11 +42,11 @@ class NavigationItem:
         if column < 0 or column >= len(self._item_data):
             raise IndexError
 
-        return self._item_data[column]
+        return self._item_data[column].display
 
-    def icon(self):
-        if self._icon_id:
-            return QIcon("icons/" + self._icon_id)
+    def icon(self, column):
+        if self._item_data[column].icon:
+            return QIcon("icons/" + self._item_data[column].icon)
 
     def row(self):
         """ if the current instance is not the root, """
@@ -66,45 +72,40 @@ class NavigationModel(QAbstractItemModel):
 
     def __init__(self, parent: QObject = None):
         super().__init__(parent)
-        self._root_item = NavigationItem(["Root"], None, None)
+        root_data = NavigationItemData("Root", None)
+        self._root_item = NavigationItem([root_data], None)
         # setup the model data here
         self._setup_model_data()
 
     def _setup_model_data(self):
         icon_id = "braindump.png"
-        model_item = NavigationItem(["Models"], self._root_item, icon_id)
+        model_item = NavigationItem([NavigationItemData("Models", icon_id)], self._root_item)
         self._root_item.append_child(model_item)
-        project_item = NavigationItem(["Projects"], self._root_item, icon_id)
+        project_item = NavigationItem([NavigationItemData("Projects", "wrench.png")], self._root_item)
         self._root_item.append_child(project_item)
         # subitem of model
-        data_model = NavigationItem(["Data Model"], model_item, icon_id)
+        data_model = NavigationItem([NavigationItemData("Data Model", icon_id)], model_item)
         model_item.append_child(data_model)
 
         # subitems of project
-        timekeeping = NavigationItem(["Timekeeping"], project_item, icon_id)
+        timekeeping = NavigationItem([NavigationItemData("Timekeeping", icon_id)], project_item)
         project_item.append_child(timekeeping)
 
         # subitems of timekeeping, just a test thing
-        timecards = NavigationItem(["Timecards"], timekeeping, icon_id)
+        timecards = NavigationItem([NavigationItemData("Timecards", icon_id)], timekeeping)
         timekeeping.append_child(timecards)
 
     def flags(self, index: QModelIndex) -> Qt.ItemFlags:
         if not(index.isValid()):
             return Qt.ItemFlags.NoItemFlags
-
         return super().flags(index)
-
-
-
-        #return super().flags(index)
 
     def data(self, index, role):
         if not index.isValid():
             return None
-
         item = index.internalPointer()
         if role == Qt.ItemDataRole.DecorationRole:
-            return item.icon()
+            return item.icon(index.column())
         elif role == Qt.ItemDataRole.DisplayRole:
             return item.data(index.column())
         #ToolTipRole,
