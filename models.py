@@ -10,6 +10,7 @@ class NavigationItemData:
         self.display = display
         self.icon = icon
 
+
 class NavigationItem:
     """ is a recursive data structure (tree) """
 
@@ -84,15 +85,15 @@ class NavigationModel(QAbstractItemModel):
         project_item = NavigationItem([NavigationItemData("Projects", "wrench.png")], self._root_item)
         self._root_item.append_child(project_item)
         # subitem of model
-        data_model = NavigationItem([NavigationItemData("Data Model", icon_id)], model_item)
+        data_model = NavigationItem([NavigationItemData("Data Model", "template.png")], model_item)
         model_item.append_child(data_model)
 
         # subitems of project
-        timekeeping = NavigationItem([NavigationItemData("Timekeeping", icon_id)], project_item)
+        timekeeping = NavigationItem([NavigationItemData("Timekeeping", "type.png")],  project_item)
         project_item.append_child(timekeeping)
 
         # subitems of timekeeping, just a test thing
-        timecards = NavigationItem([NavigationItemData("Timecards", icon_id)], timekeeping)
+        timecards = NavigationItem([NavigationItemData("Timecards", "wand.png")], timekeeping)
         timekeeping.append_child(timecards)
 
     def flags(self, index: QModelIndex) -> Qt.ItemFlags:
