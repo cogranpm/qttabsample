@@ -3,8 +3,8 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Thu Jun 27 12:28:09 2019
-#      by: pyside2-uic  running on PySide2 5.12.4
+# Created: Mon Aug 26 20:14:53 2019
+#      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -31,6 +31,11 @@ class Ui_MainWindow(object):
         self.navTree.setObjectName("navTree")
         self.verticalLayout_2.addWidget(self.navTree)
         self.frmMain = QtWidgets.QFrame(self.splitter)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(2)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frmMain.sizePolicy().hasHeightForWidth())
+        self.frmMain.setSizePolicy(sizePolicy)
         self.frmMain.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frmMain.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frmMain.setObjectName("frmMain")
