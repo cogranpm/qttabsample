@@ -3,7 +3,7 @@ from PySide2.QtCore import Signal, Slot
 from PySide2.QtWidgets import QWidget, QMessageBox
 from tab_page import Ui_TabPage
 from SampleModel import Model
-
+from SampleModel import Person
 
 class TabSample(QWidget):
     def __init__(self):
@@ -22,6 +22,11 @@ class TabSample(QWidget):
         model.pcomplex = 9.848744774
         model.pstring = "hello there" + model.pstring
         model.pbool = True
+
+        person = Person("fred", "munroe")
+        person.first_name = "senior"
+        person.last_name = "frog"
+        print(person.last_name)
 
         msg = QMessageBox()
         msg.setText("clicked button")
