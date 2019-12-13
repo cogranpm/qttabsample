@@ -1,6 +1,9 @@
 """ demo of qt notiion of entity with properties
 could also use the python notion, which uses @ attributes
 """
+from dataclasses import dataclass
+from datetime import date
+
 from PySide2.QtCore import QObject, Signal, Slot, Property
 
 
@@ -79,4 +82,13 @@ class Person:
     @last_name.setter
     def last_name(self, val):
         self._last_name = val
+
+
+# creates an immutable value object
+@dataclass(frozen=True)
+class Order:
+    id: int
+    qty: int
+    notes: str
+    created: date
 
