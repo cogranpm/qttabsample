@@ -3,8 +3,8 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Mon Aug 26 20:14:53 2019
-#      by: pyside2-uic  running on PySide2 5.13.0
+# Created: Sat Dec 14 10:31:30 2019
+#      by: pyside2-uic  running on PySide2 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -56,19 +56,25 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.splitter)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
+        self.menuAction = QtWidgets.QMenu(self.menubar)
+        self.menuAction.setObjectName("menuAction")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.actionQuit = QtWidgets.QAction(MainWindow)
         self.actionQuit.setObjectName("actionQuit")
+        self.actionChristmas_Tree = QtWidgets.QAction(MainWindow)
+        self.actionChristmas_Tree.setObjectName("actionChristmas_Tree")
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionQuit)
+        self.menuAction.addAction(self.actionChristmas_Tree)
         self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuAction.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(1)
@@ -80,6 +86,9 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtWidgets.QApplication.translate("MainWindow", "Property", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabTest), QtWidgets.QApplication.translate("MainWindow", "Loaded", None, -1))
         self.menuFile.setTitle(QtWidgets.QApplication.translate("MainWindow", "File", None, -1))
+        self.menuAction.setTitle(QtWidgets.QApplication.translate("MainWindow", "Action", None, -1))
         self.actionQuit.setText(QtWidgets.QApplication.translate("MainWindow", "Quit", None, -1))
         self.actionQuit.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
+        self.actionChristmas_Tree.setText(QtWidgets.QApplication.translate("MainWindow", "Christmas Tree", None, -1))
+        self.actionChristmas_Tree.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+X", None, -1))
 

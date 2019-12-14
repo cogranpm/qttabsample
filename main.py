@@ -5,6 +5,7 @@ from PySide2.QtGui import QStandardItemModel, QStandardItem, QIcon
 from PySide2.QtCore import QItemSelectionModel
 from mainwindow import Ui_MainWindow
 from tabsample import TabSample
+from christmas_tree_view import ChristmasTreeView
 from models import NavigationItem, NavigationModel
 
 class MainWindow(QMainWindow):
@@ -14,6 +15,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.btnAddTab.clicked.connect(self.addTabClick)
         self.ui.actionQuit.triggered.connect(QApplication.quit)
+        self.ui.actionChristmas_Tree.triggered.connect(self.handle_action_christmas_tree)
 
         # view, navTree holds model instance, navModel
         # self.ui.navTree.setModel(self.navModel)
@@ -27,6 +29,9 @@ class MainWindow(QMainWindow):
 
     def addTabClick(self):
         self.ui.tabWidget.addTab(TabSample(), "New")
+
+    def handle_action_christmas_tree(self):
+        self.ui.tabWidget.addTab(ChristmasTreeView(), "Graphics View")
 
     def navigationselected(self, selected, deselected):
         items = selected.indexes()

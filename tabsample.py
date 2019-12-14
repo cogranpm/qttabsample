@@ -5,6 +5,7 @@ from tab_page import Ui_TabPage
 from SampleModel import Model
 from SampleModel import Person
 
+
 class TabSample(QWidget):
     def __init__(self):
         QWidget.__init__(self)
