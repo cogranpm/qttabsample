@@ -31,7 +31,9 @@ class MainWindow(QMainWindow):
         self.ui.tabWidget.addTab(TabSample(), "New")
 
     def handle_action_christmas_tree(self):
-        self.ui.tabWidget.addTab(ChristmasTreeView(), "Graphics View")
+        tab_index = self.ui.tabWidget.addTab(ChristmasTreeView(), "Graphics View")
+        self.ui.tabWidget.setCurrentIndex(tab_index)
+
 
     def navigationselected(self, selected, deselected):
         items = selected.indexes()
