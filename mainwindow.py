@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Mon Feb  3 10:19:54 2020
+# Created: Mon Feb  3 10:40:39 2020
 #      by: pyside2-uic  running on PySide2 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -95,4 +95,5 @@ class Ui_MainWindow(object):
         self.actionChristmas_Tree.setText(QtWidgets.QApplication.translate("MainWindow", "Christmas Tree", None, -1))
         self.actionChristmas_Tree.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+X", None, -1))
         self.actionDatabase_Test.setText(QtWidgets.QApplication.translate("MainWindow", "Database Test", None, -1))
+        self.actionDatabase_Test.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+D", None, -1))
 

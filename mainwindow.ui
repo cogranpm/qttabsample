@@ -124,6 +124,9 @@
    <property name="text">
     <string>Database Test</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
   </action>
  </widget>
  <resources/>

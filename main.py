@@ -7,9 +7,8 @@ from mainwindow import Ui_MainWindow
 from tabsample import TabSample
 from christmas_tree_view import ChristmasTreeView
 from models import NavigationItem, NavigationModel
+from question_form_view import question_form_view
 
-# database stuff, to be moved elsewhere
-import dataset
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -39,13 +38,7 @@ class MainWindow(QMainWindow):
         self.ui.tabWidget.setCurrentIndex(tab_index)
 
     def handle_action_database_test(self):
-        print("database test")
-        db = dataset.connect('sqlite:///kernai.db')
-        questions = db['questions']
-        # questions.insert(dict(body='declare a map with 3 values', tag='collections', expected_answer='{"name":"fred", "name":"thelma", "name":"louise"}'))
-        # questions.insert(dict(body='declare a list with 3 values', tag='collections', expected_answer='["fred", "themlma", "louise"]'))
-        for question in db['questions']:
-            print(question['body'])
+        self.ui.tabWidget.addTab(question_form_view(), "Questions")
 
 
     def navigationselected(self, selected, deselected):
