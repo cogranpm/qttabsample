@@ -98,6 +98,7 @@
      <string>Action</string>
     </property>
     <addaction name="actionChristmas_Tree"/>
+    <addaction name="actionDatabase_Test"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuAction"/>
@@ -117,6 +118,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionDatabase_Test">
+   <property name="text">
+    <string>Database Test</string>
    </property>
   </action>
  </widget>

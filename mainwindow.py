@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Sat Dec 14 10:31:30 2019
+# Created: Mon Feb  3 10:19:54 2020
 #      by: pyside2-uic  running on PySide2 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -70,9 +70,12 @@ class Ui_MainWindow(object):
         self.actionQuit.setObjectName("actionQuit")
         self.actionChristmas_Tree = QtWidgets.QAction(MainWindow)
         self.actionChristmas_Tree.setObjectName("actionChristmas_Tree")
+        self.actionDatabase_Test = QtWidgets.QAction(MainWindow)
+        self.actionDatabase_Test.setObjectName("actionDatabase_Test")
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionQuit)
         self.menuAction.addAction(self.actionChristmas_Tree)
+        self.menuAction.addAction(self.actionDatabase_Test)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuAction.menuAction())
 
@@ -91,4 +94,5 @@ class Ui_MainWindow(object):
         self.actionQuit.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
         self.actionChristmas_Tree.setText(QtWidgets.QApplication.translate("MainWindow", "Christmas Tree", None, -1))
         self.actionChristmas_Tree.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+X", None, -1))
+        self.actionDatabase_Test.setText(QtWidgets.QApplication.translate("MainWindow", "Database Test", None, -1))
 
