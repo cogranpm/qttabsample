@@ -10,35 +10,56 @@ import dataset
 
 class question_model(QAbstractTableModel):
 
-    def __init__(self, data=None):
+    def __init__(self, columns, data=None):
         QAbstractTableModel.__init__(self)
         self.load_data(data)
+        self.columns = columns
 
     def load_data(self, data):
-        self.bodys = data[0].values
-        self.tags = data[1].values
-        self.answers = data[2].values
-        self.column_count = 3
-        self.row_count = 0
+        self.data = data
 
     def rowCount(self, parent=QModelIndex):
-        return self.row_count
+        return len(self.data)
 
     def columnCount(self, parent=QModelIndex):
-        return self.column_count
+        return len(self.columns)
+
+    def setData(self, index, value, role=Qt.EditRole):
+        if role == Qt.EditRole:
+            row = index.row()
+            column = index.column()
+            # got to put value back into the dataset
+            self.data[row][column] = value
+            #print(value)
+            return True
+        return False
+
 
     def headerData(self, section, orientation, role):
-        if role != Qt.DisplayRole:
-            return None
-        if orientation == Qt.Horizontal:
-            return ("Body", "Tag", "Answer")[section]
-        else:
-            return "{}".format(section)
+        if role == Qt.DisplayRole:
+            if orientation == Qt.Horizontal:
+                return str(self.columns[section])
+            elif orientation == Qt.Vertical:
+                pass
+        elif role == Qt.TextAlignmentRole:
+                if orientation == Qt.Horizontal:
+                    return Qt.AlignCenter
+        return None
 
-    def data(self, index, role=Qt.DisplayRole):
+    def flags(self, index):
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable
+
+
+    def data(self, index, role):
         column = index.column()
         row = index.row()
         # more stuff
+        if role == Qt.DisplayRole:
+            #return str(self.data[row][column])
+            return "fagg off"
+        elif role == Qt.TextAlignmentRole:
+            return Qt.AlignLeft
+        return None
 
 class question_form_view(QWidget):
     def __init__(self):
@@ -48,9 +69,9 @@ class question_form_view(QWidget):
         tags = ['collections', 'other', 'functional']
         for tag in tags:
             self.ui.cboTags.addItem(tag, tag)
-        data = [{'body':'something', 'tag':'collections', 'answer':'answer'}]
+        data = [['something', 'collections', 'answer'], ['question', 'collections', 'answer']]
 
-        self.model = question_model(data)
+        self.model = question_model(['Body', 'Tag', 'Answer'], data)
         self.ui.questionView.setModel(self.model)
         self.ui.btnAdd.clicked.connect(self.add_click)
         self.db = dataset.connect('sqlite:///kernai.db')
