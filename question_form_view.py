@@ -10,29 +10,31 @@ import dataset
 
 class question_model(QAbstractTableModel):
 
-    def __init__(self, columns, data=None):
-        QAbstractTableModel.__init__(self)
-        self.load_data(data)
+    def __init__(self, columns, dataset=None):
+        super(question_model, self).__init__()
+        self.load_data(dataset)
         self.columns = columns
 
-    def load_data(self, data):
-        self.data = data
+    def load_data(self, dataset):
+        self.dataset = dataset
 
-    def rowCount(self, parent=QModelIndex):
-        return len(self.data)
+    def rowCount(self, parent):
+        #return 0
+        return len(self.dataset)
 
-    def columnCount(self, parent=QModelIndex):
+
+    def columnCount(self, parent):
         return len(self.columns)
 
-    def setData(self, index, value, role=Qt.EditRole):
-        if role == Qt.EditRole:
-            row = index.row()
-            column = index.column()
-            # got to put value back into the dataset
-            self.data[row][column] = value
-            #print(value)
-            return True
-        return False
+    # def update(self, index, value, role=Qt.EditRole):
+    #     if role == Qt.EditRole:
+    #         row = index.row()
+    #         column = index.column()
+    #         # got to put value back into the dataset
+    #         self.data[row][column] = value
+    #         #print(value)
+    #         return True
+    #     return False
 
 
     def headerData(self, section, orientation, role):
@@ -42,8 +44,8 @@ class question_model(QAbstractTableModel):
             elif orientation == Qt.Vertical:
                 pass
         elif role == Qt.TextAlignmentRole:
-                if orientation == Qt.Horizontal:
-                    return Qt.AlignCenter
+            if orientation == Qt.Horizontal:
+                return Qt.AlignCenter
         return None
 
     def flags(self, index):
@@ -53,10 +55,15 @@ class question_model(QAbstractTableModel):
     def data(self, index, role):
         column = index.column()
         row = index.row()
-        # more stuff
+
+        if not index.isValid():
+            return None
+
+        if index.row() >= len(self.dataset):
+            return None
+
         if role == Qt.DisplayRole:
-            #return str(self.data[row][column])
-            return "fagg off"
+            return str(self.dataset[row][column])
         elif role == Qt.TextAlignmentRole:
             return Qt.AlignLeft
         return None
