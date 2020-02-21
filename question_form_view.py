@@ -8,7 +8,7 @@ from question_form import Ui_Form
 import dataset
 
 
-class question_model(QAbstractTableModel):
+class QuestionModel(QAbstractTableModel):
 
     def __init__(self, data=None):
         QAbstractTableModel.__init__(self)
@@ -35,10 +35,13 @@ class question_model(QAbstractTableModel):
             return "{}".format(section)
 
     def data(self, index, role=Qt.DisplayRole):
+
         if not index.isValid():
             return None
         column = index.column()
         row = index.row()
+
+        #print(f"I am data-ing here, column: {column} row: {row}")
         if role == Qt.DisplayRole:
             if column == 0:
                 list_item = self.data_set[row]
@@ -53,12 +56,49 @@ class question_model(QAbstractTableModel):
     def flags(self, index):
         if not index.isValid():
             return Qt.ItemIsEnabled
-        return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
+        return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable )
+
+    def setData(self, index, value, role: int = Qt.EditRole):
+        if role != Qt.EditRole:
+            return False
+
+        if index.isValid() and 0 <= index.row() < len(self.data_set):
+            question = self.data_set[index.row()]
+            if index.column() == 0:
+                question["body"] = value
+            elif index.column() == 1:
+                question["tag"] = value
+            elif index.column() == 2:
+                question["answer"] = value
+            else:
+                return False
+
+            self.dataChanged.emit(index, index, 0)
+            return True
+        return False
 
     # todo, should we look at
     # insertRows, removeRows, setData (for editing)
+    def insertRows(self, position, rows=1, index=QModelIndex()):
+        self.beginInsertRows(index, position, position + rows - 1)
+        for row in range(rows):
+            self.data_set.insert(position + row, {'body': 'how to create immutable map in python', 'tag': 'collections',
+                              'answer': 'there is no way to do it'})
+        #self.data_set.append({'body': 'how to create immutable map in python', 'tag': 'collections', 'answer': 'there is no way to do it'})
+        self.endInsertRows()
+        #return QAbstractTableModel.insertRows(self, row, count, index)
+        return True
 
-class question_form_view(QWidget):
+    # def insertRow(self, row, index=QModelIndex()):
+    #     self.beginInsertRows(index, row, row)
+    #     self.data_set.append({'body': 'how to create immutable map in python', 'tag': 'collections',
+    #                           'answer': 'there is no way to do it'})
+    #     self.endInsertRows()
+    #     return True
+
+
+class QuestionFormView(QWidget):
+
     def __init__(self):
         QWidget.__init__(self)
         self.ui = Ui_Form()
@@ -68,7 +108,7 @@ class question_form_view(QWidget):
             self.ui.cboTags.addItem(tag, tag)
         data = [{'body': 'something', 'tag': 'collections', 'answer': 'answer'}, {'body': 'who invented perl', 'tag': 'functional', 'answer': 'Larry Wall'}]
 
-        self.model = question_model(data)
+        self.model = QuestionModel(data)
         self.ui.questionView.setModel(self.model)
         self.ui.btnAdd.clicked.connect(self.add_click)
         self.db = dataset.connect('sqlite:///kernai.db')
@@ -81,11 +121,22 @@ class question_form_view(QWidget):
 
     @Slot()
     def add_click(self):
-        new_question = {}
-        new_question["body"] = self.ui.txtBody.text()
-        new_question["tag"] = self.ui.cboTags.itemData(self.ui.cboTags.currentIndex())
-        new_question["answer"] = self.ui.txtAnswer.text()
-        print(new_question)
-        self.questions.insert(new_question)
+        new_question = {"body": self.ui.txtBody.text(), "tag": self.ui.cboTags.itemData(self.ui.cboTags.currentIndex()),
+                        "answer": self.ui.txtAnswer.text()}
+        self.model.data_set.append(new_question)
+        #self.model.emit('dataChanged')
+        #self.model.dataChanged().emit(QModelIndex(), QModelIndex(), 0)
+        #self.model.dataChanged()
+        self.model.data_set[0]["body"] = "fred"
+        self.model.data_set[0]["answer"] = "fred is my name here"
+
+        #self.model.dataChanged.emit(QModelIndex(), QModelIndex())
+        #self.model.dataChanged.emit(self.model.createIndex(1, 0), self.model.createIndex(1, 2))
+        #self.model.insertRow(self.model.row_count)
+
+
+
+
+
 
 

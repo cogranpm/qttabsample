@@ -7,7 +7,7 @@ from mainwindow import Ui_MainWindow
 from tabsample import TabSample
 from christmas_tree_view import ChristmasTreeView
 from models import NavigationItem, NavigationModel
-from question_form_view import question_form_view
+from question_form_view import QuestionFormView
 
 
 class MainWindow(QMainWindow):
@@ -40,7 +40,7 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def handle_action_database_test(self):
-        self.ui.tabWidget.addTab(question_form_view(), "Questions")
+        self.ui.tabWidget.addTab(QuestionFormView(), "Questions")
 
     @Slot()
     def navigationselected(self, selected, deselected):
