@@ -15,9 +15,6 @@ class question_model(QAbstractTableModel):
         self.load_data(data)
 
     def load_data(self, data):
-        #self.bodys = data[0].values
-        #self.tags = data[1].values
-        #self.answers = data[2].values
         self.data_set = data
         self.column_count = 3
         self.row_count = len(self.data_set)
@@ -57,6 +54,9 @@ class question_model(QAbstractTableModel):
         if not index.isValid():
             return Qt.ItemIsEnabled
         return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
+
+    # todo, should we look at
+    # insertRows, removeRows, setData (for editing)
 
 class question_form_view(QWidget):
     def __init__(self):
