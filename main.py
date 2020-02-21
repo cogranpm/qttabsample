@@ -2,7 +2,7 @@
 import sys
 from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtGui import QStandardItemModel, QStandardItem, QIcon
-from PySide2.QtCore import QItemSelectionModel
+from PySide2.QtCore import QItemSelectionModel, Slot
 from mainwindow import Ui_MainWindow
 from tabsample import TabSample
 from christmas_tree_view import ChristmasTreeView
@@ -29,30 +29,35 @@ class MainWindow(QMainWindow):
 
         #self.ui.navTree.show()
 
-
+    @Slot()
     def addTabClick(self):
         self.ui.tabWidget.addTab(TabSample(), "New")
 
+    @Slot()
     def handle_action_christmas_tree(self):
         tab_index = self.ui.tabWidget.addTab(ChristmasTreeView(), "Graphics View")
         self.ui.tabWidget.setCurrentIndex(tab_index)
 
+    @Slot()
     def handle_action_database_test(self):
         self.ui.tabWidget.addTab(question_form_view(), "Questions")
 
-
+    @Slot()
     def navigationselected(self, selected, deselected):
         items = selected.indexes()
         for x in items:
             print(x.data())
 
 
-if __name__ == "__main__":
+def run():
     try:
         app = QApplication([])
         window = MainWindow()
         window.show()
         sys.exit(app.exec_())
     except Exception as inst:
-        print("error in main: ", inst)
-        pass
+        print("error in main: ", inst)   
+
+if __name__ == "__main__":
+    run()
+
