@@ -1,6 +1,6 @@
 from PySide2.QtCore import Signal, Slot, Qt, QAbstractTableModel, QModelIndex
 from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor
-from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem
+from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView
 
 
 from question_form import Ui_Form
@@ -109,10 +109,15 @@ class QuestionFormView(QWidget):
             self.ui.cboTags.addItem(tag, tag)
         data = [{'body': 'something', 'tag': 'collections', 'answer': 'answer'}, {'body': 'who invented perl', 'tag': 'functional', 'answer': 'Larry Wall'}]
 
+        self.table = self.ui.questionView
         self.model = QuestionModel(data)
-        self.ui.questionView.setModel(self.model)
+        self.table.setModel(self.model)
         self.ui.btnAdd.clicked.connect(self.add_click)
-        self.ui.questionView.selectionModel().selectionChanged.connect(self.select_item)
+
+        self.selections = self.table.selectionModel()
+        self.table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.table.selectionModel().selectionChanged.connect(self.select_item)
 
         # using the dataset sql library to connect to sqlite
         self.db = dataset.connect('sqlite:///kernai.db')
@@ -125,7 +130,8 @@ class QuestionFormView(QWidget):
 
     @Slot()
     def select_item(self):
-        print("selected something")
+        for index in self.selections.selectedIndexes():
+            print(index)
 
     @Slot()
     def add_click(self):
