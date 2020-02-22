@@ -87,6 +87,7 @@ class QuestionModel(QAbstractTableModel):
         #self.data_set.append({'body': 'how to create immutable map in python', 'tag': 'collections', 'answer': 'there is no way to do it'})
         self.endInsertRows()
         #return QAbstractTableModel.insertRows(self, row, count, index)
+        print("bogshite")
         return True
 
     # def insertRow(self, row, index=QModelIndex()):
@@ -123,16 +124,12 @@ class QuestionFormView(QWidget):
     def add_click(self):
         new_question = {"body": self.ui.txtBody.text(), "tag": self.ui.cboTags.itemData(self.ui.cboTags.currentIndex()),
                         "answer": self.ui.txtAnswer.text()}
+        self.model.beginInsertRows(QModelIndex(), self.model.row_count, self.model.row_count)
         self.model.data_set.append(new_question)
-        #self.model.emit('dataChanged')
-        #self.model.dataChanged().emit(QModelIndex(), QModelIndex(), 0)
-        #self.model.dataChanged()
-        self.model.data_set[1]["body"] = "fred"
-        self.model.data_set[1]["answer"] = "fred is my name here"
+        self.model.endInsertRows()
+        self.model.row_count = self.model.row_count + 1
+        #self.ui.questionView.update()
 
-        self.model.dataChanged.emit(QModelIndex(), QModelIndex())
-        #self.model.dataChanged.emit(self.model.createIndex(1, 0), self.model.createIndex(1, 2))
-        #self.model.insertRow(self.model.row_count)
 
 
 
