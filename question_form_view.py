@@ -128,10 +128,14 @@ class QuestionFormView(QWidget):
             print(question['body'])
             print(question['answer'])
 
+
+
     @Slot()
     def select_item(self):
-        for index in self.selections.selectedIndexes():
-            print(index)
+        selected_row = self.selections.selectedIndexes()[0].row()
+        selected_data = self.model.data_set[selected_row]
+        print(selected_data)
+
 
     @Slot()
     def add_click(self):
