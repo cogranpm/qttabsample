@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Mon Feb  3 10:40:39 2020
+# Created: Fri Feb 21 20:01:18 2020
 #      by: pyside2-uic  running on PySide2 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -45,6 +45,7 @@ class Ui_MainWindow(object):
         self.btnAddTab.setObjectName("btnAddTab")
         self.verticalLayout_3.addWidget(self.btnAddTab)
         self.tabWidget = QtWidgets.QTabWidget(self.frmMain)
+        self.tabWidget.setTabsClosable(True)
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")

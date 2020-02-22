@@ -59,6 +59,9 @@
           <property name="currentIndex">
            <number>1</number>
           </property>
+          <property name="tabsClosable">
+           <bool>true</bool>
+          </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
             <string>Property</string>

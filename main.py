@@ -2,7 +2,7 @@
 import sys
 from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtGui import QStandardItemModel, QStandardItem, QIcon
-from PySide2.QtCore import QItemSelectionModel, Slot
+from PySide2.QtCore import QItemSelectionModel, Slot, QObject, SIGNAL
 from mainwindow import Ui_MainWindow
 from tabsample import TabSample
 from christmas_tree_view import ChristmasTreeView
@@ -19,6 +19,8 @@ class MainWindow(QMainWindow):
         self.ui.actionQuit.triggered.connect(QApplication.quit)
         self.ui.actionChristmas_Tree.triggered.connect(self.handle_action_christmas_tree)
         self.ui.actionDatabase_Test.triggered.connect(self.handle_action_database_test)
+        QObject.connect(self.ui.tabWidget, SIGNAL('tabCloseRequested(int)'), self.closeTab)
+
 
         # view, navTree holds model instance, navModel
         # self.ui.navTree.setModel(self.navModel)
@@ -28,6 +30,10 @@ class MainWindow(QMainWindow):
         self.selection_model.selectionChanged.connect(self.navigationselected)
 
         #self.ui.navTree.show()
+
+    @Slot(int)
+    def closeTab(self, index):
+        self.ui.tabWidget.removeTab(index)
 
     @Slot()
     def addTabClick(self):

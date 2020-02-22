@@ -127,10 +127,10 @@ class QuestionFormView(QWidget):
         #self.model.emit('dataChanged')
         #self.model.dataChanged().emit(QModelIndex(), QModelIndex(), 0)
         #self.model.dataChanged()
-        self.model.data_set[0]["body"] = "fred"
-        self.model.data_set[0]["answer"] = "fred is my name here"
+        self.model.data_set[1]["body"] = "fred"
+        self.model.data_set[1]["answer"] = "fred is my name here"
 
-        #self.model.dataChanged.emit(QModelIndex(), QModelIndex())
+        self.model.dataChanged.emit(QModelIndex(), QModelIndex())
         #self.model.dataChanged.emit(self.model.createIndex(1, 0), self.model.createIndex(1, 2))
         #self.model.insertRow(self.model.row_count)
 
