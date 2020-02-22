@@ -46,7 +46,9 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def handle_action_database_test(self):
-        self.ui.tabWidget.addTab(QuestionFormView(), "Questions")
+        new_index = self.ui.tabWidget.addTab(QuestionFormView(), "Questions")
+        self.ui.tabWidget.setCurrentIndex(new_index)
+
 
     @Slot()
     def navigationselected(self, selected, deselected):

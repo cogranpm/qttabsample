@@ -112,6 +112,9 @@ class QuestionFormView(QWidget):
         self.model = QuestionModel(data)
         self.ui.questionView.setModel(self.model)
         self.ui.btnAdd.clicked.connect(self.add_click)
+        self.ui.questionView.selectionModel().selectionChanged.connect(self.select_item)
+
+        # using the dataset sql library to connect to sqlite
         self.db = dataset.connect('sqlite:///kernai.db')
         self.questions = self.db['questions']
 
@@ -119,6 +122,10 @@ class QuestionFormView(QWidget):
         for question in self.db['questions']:
             print(question['body'])
             print(question['answer'])
+
+    @Slot()
+    def select_item(self):
+        print("selected something")
 
     @Slot()
     def add_click(self):
