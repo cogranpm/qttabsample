@@ -1,11 +1,36 @@
-from PySide2.QtCore import Signal, Slot, Qt, QAbstractTableModel, QModelIndex
-from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor
+from PySide2.QtCore import Signal, Slot, Qt, QAbstractTableModel, QModelIndex, QAbstractItemModel, QObject
+from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor, QStandardItemModel
 from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView
-
-
+import typing
 from question_form import Ui_Form
-
 import dataset
+
+
+class ItemModel(QStandardItemModel):
+
+    def __init__(self):
+        QStandardItemModel.__init__(None)
+
+    def index(self, row:int, column:int, parent:QModelIndex= QModelIndex()) -> QModelIndex:
+        pass
+
+    def parent(self) -> QObject:
+        pass
+
+    def rowCount(self, parent:QModelIndex= QModelIndex()) -> int:
+        pass
+
+    def columnCount(self, parent:QModelIndex= QModelIndex()) -> int:
+        pass
+
+    def data(self, index:QModelIndex, role:int=...) -> typing.Any:
+        pass
+
+    def setData(self, index:QModelIndex, value:typing.Any, role:int=...) -> bool:
+        pass
+
+    def flags(self, index:QModelIndex) -> Qt.ItemFlags:
+        pass
 
 
 class QuestionModel(QAbstractTableModel):
@@ -87,7 +112,6 @@ class QuestionModel(QAbstractTableModel):
         #self.data_set.append({'body': 'how to create immutable map in python', 'tag': 'collections', 'answer': 'there is no way to do it'})
         self.endInsertRows()
         #return QAbstractTableModel.insertRows(self, row, count, index)
-        print("bogshite")
         return True
 
     # def insertRow(self, row, index=QModelIndex()):
@@ -110,18 +134,18 @@ class QuestionFormView(QWidget):
         data = [{'body': 'something', 'tag': 'collections', 'answer': 'answer'}, {'body': 'who invented perl', 'tag': 'functional', 'answer': 'Larry Wall'}]
 
         self.table = self.ui.questionView
+        self.ui.btnAdd.clicked.connect(self.add_click)
+        # using the dataset sql library to connect to sqlite
+        self.db = dataset.connect('sqlite:///kernai.db')
+        #self.questions = self.db['questions']
+        #self.model = QuestionModel(self.questions)
+        print(self.db['questions'])
         self.model = QuestionModel(data)
         self.table.setModel(self.model)
-        self.ui.btnAdd.clicked.connect(self.add_click)
-
         self.selections = self.table.selectionModel()
         self.table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.selectionModel().selectionChanged.connect(self.select_item)
-
-        # using the dataset sql library to connect to sqlite
-        self.db = dataset.connect('sqlite:///kernai.db')
-        self.questions = self.db['questions']
 
     def showEvent(self, event: QShowEvent):
         for question in self.db['questions']:
