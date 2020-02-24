@@ -200,13 +200,16 @@ class QuestionFormView(QWidget):
     @Slot()
     def save_click(self):
         current_index = self.mapper.currentIndex()
+
+        # does not keep the type of the data, all becomes a string
         body = self.get_model_data(current_index, 1)
         tag = self.get_model_data(current_index, 2)
         answer = self.get_model_data(current_index, 3)
         id = self.get_model_data(current_index, 0)
-        print(id, body, answer, tag)
+        #print(id, body, answer, tag)
+        print(type(id))
         # lets update the database
-        self.data_table.update(dict(id=id, body= body, tag= tag, answer= answer), ['id'])
+        self.data_table.upsert(dict(id=id, body= body, tag= tag, answer= answer), ['id'])
 
     def get_model_data(self, row, column):
         index: QModelIndex = self.mapper.model().index(row, column)
