@@ -25,6 +25,9 @@
    <property name="text">
     <string>Question:</string>
    </property>
+   <property name="buddy">
+    <cstring></cstring>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
@@ -70,6 +73,9 @@
    </property>
    <property name="text">
     <string>Answer:</string>
+   </property>
+   <property name="buddy">
+    <cstring>txtAnswer</cstring>
    </property>
   </widget>
   <widget class="QPushButton" name="btnAdd">

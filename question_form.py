@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'question_form.ui',
 # licensing of 'question_form.ui' applies.
 #
-# Created: Mon Feb  3 12:18:42 2020
+# Created: Mon Feb 24 10:25:48 2020
 #      by: pyside2-uic  running on PySide2 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -41,6 +41,7 @@ class Ui_Form(object):
         self.label_4 = QtWidgets.QLabel(Form)
         self.label_4.setGeometry(QtCore.QRect(30, 10, 91, 17))
         self.label_4.setObjectName("label_4")
+        self.label_3.setBuddy(self.txtAnswer)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

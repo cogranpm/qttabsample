@@ -1,9 +1,10 @@
 from PySide2.QtCore import Signal, Slot, Qt, QAbstractTableModel, QModelIndex, QAbstractItemModel, QObject
-from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor, QStandardItemModel
-from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView
+from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor, QStandardItemModel, QStandardItem
+from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView, QDataWidgetMapper
 import typing
 from question_form import Ui_Form
 import dataset
+from collections import OrderedDict
 
 
 class ItemModel(QStandardItemModel):
@@ -132,23 +133,27 @@ class QuestionFormView(QWidget):
         for tag in tags:
             self.ui.cboTags.addItem(tag, tag)
         #data = [{'body': 'something', 'tag': 'collections', 'answer': 'answer'}, {'body': 'who invented perl', 'tag': 'functional', 'answer': 'Larry Wall'}]
-        data = []
 
+        # declare the list holding data used by the form, local variable that will be referenced by the model
+        # is a list of OrderedDict items
+        data = []
         self.table = self.ui.questionView
         self.ui.btnAdd.clicked.connect(self.add_click)
+        self.mapper = QDataWidgetMapper()
         # using the dataset sql library to connect to sqlite
         self.db = dataset.connect('sqlite:///kernai.db')
-        #self.questions = self.db['questions']
-        #self.model = QuestionModel(self.questions)
-
-        print(type(self.db['questions']))
         data_table: dataset.Table = self.db['questions']
-        print(data_table.columns)
-        all_data = data_table.all()
+        # all call is not actually required here, but makes things explicit
+        all_data: dataset.util.ResultIter = data_table.all()
+        widget_model: QStandardItemModel = QStandardItemModel()
+        # each record in a table is an ordered dict with all the fields
+        index = 0
         for record in all_data:
-            print(record)
-            data.append({'body': record['body'], 'tag': record['tag'], 'answer': record['answer']})
+            data.append(record)
+            self.setup_mapper(index, record, widget_model)
+            index += 1
 
+        # store the abstract table model derived instance
         self.model = QuestionModel(data)
         self.table.setModel(self.model)
         self.selections = self.table.selectionModel()
@@ -156,20 +161,29 @@ class QuestionFormView(QWidget):
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.selectionModel().selectionChanged.connect(self.select_item)
 
+        widget_model.setRowCount(index)
+        widget_model.setColumnCount(4)
+        self.mapper.setModel(widget_model)
+        # note, it's essential this stuff comes after the call to setModel on the QDataWidgetMapper instance
+        self.mapper.addMapping(self.ui.txtBody, 1)
+        self.mapper.addMapping(self.ui.cboTags, 2)
+        self.mapper.addMapping(self.ui.txtAnswer, 3)
+
+
     def showEvent(self, event: QShowEvent):
-        for question in self.db['questions']:
-            print(question['id'])
-            print(question['body'])
-            print(question['answer'])
+        print('I am called when form is shown')
 
-
+    def setup_mapper(self, index: int, row: OrderedDict, model: QStandardItemModel):
+        model.setItem(index, 0, QStandardItem(row['id']))
+        model.setItem(index, 1, QStandardItem(row['body']))
+        model.setItem(index, 2, QStandardItem(row['tag']))
+        model.setItem(index, 3, QStandardItem(row['answer']))
 
     @Slot()
     def select_item(self):
-        selected_row = self.selections.selectedIndexes()[0].row()
-        selected_data = self.model.data_set[selected_row]
-        print(selected_data)
-
+        selected_row_index: int = self.selections.selectedIndexes()[0].row()
+        # selected_data = self.model.data_set[selected_row_index]
+        self.mapper.setCurrentIndex(selected_row_index)
 
     @Slot()
     def add_click(self):
@@ -178,8 +192,8 @@ class QuestionFormView(QWidget):
         self.model.beginInsertRows(QModelIndex(), self.model.row_count, self.model.row_count)
         self.model.data_set.append(new_question)
         self.model.endInsertRows()
+        # this next line is essential when adding rows
         self.model.row_count = self.model.row_count + 1
-        #self.ui.questionView.update()
 
 
 
