@@ -139,12 +139,13 @@ class QuestionFormView(QWidget):
         data = []
         self.table = self.ui.questionView
         self.ui.btnAdd.clicked.connect(self.add_click)
+        self.ui.btnSave.clicked.connect(self.save_click)
         self.mapper = QDataWidgetMapper()
         # using the dataset sql library to connect to sqlite
         self.db = dataset.connect('sqlite:///kernai.db')
-        data_table: dataset.Table = self.db['questions']
+        self.data_table: dataset.Table = self.db['questions']
         # all call is not actually required here, but makes things explicit
-        all_data: dataset.util.ResultIter = data_table.all()
+        all_data: dataset.util.ResultIter = self.data_table.all()
         widget_model: QStandardItemModel = QStandardItemModel()
         # each record in a table is an ordered dict with all the fields
         index = 0
@@ -165,6 +166,7 @@ class QuestionFormView(QWidget):
         widget_model.setColumnCount(4)
         self.mapper.setModel(widget_model)
         # note, it's essential this stuff comes after the call to setModel on the QDataWidgetMapper instance
+        self.mapper.addMapping(self.ui.txtID, 0)
         self.mapper.addMapping(self.ui.txtBody, 1)
         self.mapper.addMapping(self.ui.cboTags, 2)
         self.mapper.addMapping(self.ui.txtAnswer, 3)
@@ -174,7 +176,7 @@ class QuestionFormView(QWidget):
         print('I am called when form is shown')
 
     def setup_mapper(self, index: int, row: OrderedDict, model: QStandardItemModel):
-        model.setItem(index, 0, QStandardItem(row['id']))
+        model.setItem(index, 0, QStandardItem(str(row['id'])))
         model.setItem(index, 1, QStandardItem(row['body']))
         model.setItem(index, 2, QStandardItem(row['tag']))
         model.setItem(index, 3, QStandardItem(row['answer']))
@@ -195,7 +197,20 @@ class QuestionFormView(QWidget):
         # this next line is essential when adding rows
         self.model.row_count = self.model.row_count + 1
 
+    @Slot()
+    def save_click(self):
+        current_index = self.mapper.currentIndex()
+        body = self.get_model_data(current_index, 1)
+        tag = self.get_model_data(current_index, 2)
+        answer = self.get_model_data(current_index, 3)
+        id = self.get_model_data(current_index, 0)
+        print(id, body, answer, tag)
+        # lets update the database
+        self.data_table.update(dict(id=id, body= body, tag= tag, answer= answer), ['id'])
 
+    def get_model_data(self, row, column):
+        index: QModelIndex = self.mapper.model().index(row, column)
+        return self.mapper.model().data(index)
 
 
 

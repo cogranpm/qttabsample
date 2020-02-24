@@ -6,83 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>539</width>
-    <height>471</height>
+    <width>664</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>319</y>
-     <width>55</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Question:</string>
-   </property>
-   <property name="buddy">
-    <cstring></cstring>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>350</y>
-     <width>24</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Tag:</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="txtBody">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>320</y>
-     <width>431</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="txtAnswer">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>382</y>
-     <width>421</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>381</y>
-     <width>46</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Answer:</string>
-   </property>
-   <property name="buddy">
-    <cstring>txtAnswer</cstring>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btnAdd">
    <property name="geometry">
     <rect>
-     <x>429</x>
-     <y>426</y>
+     <x>90</x>
+     <y>10</y>
      <width>80</width>
      <height>25</height>
     </rect>
@@ -91,38 +26,98 @@
     <string>Add</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="cboTags">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>351</y>
-     <width>201</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QTableView" name="questionView">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>40</y>
-     <width>491</width>
-     <height>261</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>10</y>
-     <width>91</width>
+     <x>9</x>
+     <y>9</y>
+     <width>58</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
     <string>Questions</string>
    </property>
+  </widget>
+  <widget class="QPushButton" name="btnSave">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>550</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtID">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>550</y>
+     <width>113</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>631</width>
+     <height>498</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTableView" name="questionView"/>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Edit</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Question:</string>
+         </property>
+         <property name="buddy">
+          <cstring></cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="txtBody"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Tag:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="cboTags"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Answer:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPlainTextEdit" name="txtAnswer"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
