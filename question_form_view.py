@@ -131,7 +131,8 @@ class QuestionFormView(QWidget):
         tags = ['collections', 'other', 'functional']
         for tag in tags:
             self.ui.cboTags.addItem(tag, tag)
-        data = [{'body': 'something', 'tag': 'collections', 'answer': 'answer'}, {'body': 'who invented perl', 'tag': 'functional', 'answer': 'Larry Wall'}]
+        #data = [{'body': 'something', 'tag': 'collections', 'answer': 'answer'}, {'body': 'who invented perl', 'tag': 'functional', 'answer': 'Larry Wall'}]
+        data = []
 
         self.table = self.ui.questionView
         self.ui.btnAdd.clicked.connect(self.add_click)
@@ -139,7 +140,15 @@ class QuestionFormView(QWidget):
         self.db = dataset.connect('sqlite:///kernai.db')
         #self.questions = self.db['questions']
         #self.model = QuestionModel(self.questions)
-        print(self.db['questions'])
+
+        print(type(self.db['questions']))
+        data_table: dataset.Table = self.db['questions']
+        print(data_table.columns)
+        all_data = data_table.all()
+        for record in all_data:
+            print(record)
+            data.append({'body': record['body'], 'tag': record['tag'], 'answer': record['answer']})
+
         self.model = QuestionModel(data)
         self.table.setModel(self.model)
         self.selections = self.table.selectionModel()
@@ -149,6 +158,7 @@ class QuestionFormView(QWidget):
 
     def showEvent(self, event: QShowEvent):
         for question in self.db['questions']:
+            print(question['id'])
             print(question['body'])
             print(question['answer'])
 
