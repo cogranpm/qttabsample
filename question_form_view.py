@@ -1,6 +1,6 @@
 from PySide2.QtCore import Signal, Slot, Qt, QAbstractTableModel, QModelIndex, QAbstractItemModel, QObject
 from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor, QStandardItemModel, QStandardItem
-from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView, QDataWidgetMapper
+from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView, QDataWidgetMapper, QMessageBox
 import typing
 from question_form import Ui_Form
 import dataset
@@ -24,6 +24,7 @@ class QuestionFormView(QWidget):
         self.table = self.ui.questionView
         self.ui.btnAdd.clicked.connect(self.add_click)
         self.ui.btnSave.clicked.connect(self.save_click)
+        self.ui.btnDelete.clicked.connect(self.delete_click)
         self.mapper = QDataWidgetMapper()
         # using the dataset sql library to connect to sqlite
         self.db = dataset.connect('sqlite:///kernai.db')
@@ -59,11 +60,30 @@ class QuestionFormView(QWidget):
         self.ui.txtBody.setText('')
         self.ui.cboTags.setCurrentIndex(0)
 
+
+    def run_delete_query(self, id:int):
+        self.data_table.delete(id=id)
+
     @Slot()
     def select_item(self):
         selected_row_index: int = self.selections.selectedIndexes()[0].row()
         # selected_data = self.model.data_set[selected_row_index]
         self.mapper.setCurrentIndex(selected_row_index)
+
+    @Slot()
+    def delete_click(self):
+        if not (self.mapper.currentIndex() >= 0 and self.mapper.currentIndex() < len(self.model.data_set)):
+            return
+        confirm: int = QMessageBox.question(self, "Delete, are you sure?", "Do you wish to delete?", QMessageBox.Yes | QMessageBox.No)
+        if confirm == QMessageBox.StandardButton.Yes:
+            question = self.model.data_set[self.mapper.currentIndex()]
+            self.run_delete_query(question['id'])
+            self.model.beginRemoveRows(QModelIndex(), self.mapper.currentIndex(), self.mapper.currentIndex())
+            del self.model.data_set[self.mapper.currentIndex() - 1]
+            self.model.endRemoveRows()
+            self.model.row_count = self.model.row_count - 1
+            self.clear_fields()
+
 
     @Slot()
     def add_click(self):
@@ -76,6 +96,7 @@ class QuestionFormView(QWidget):
         # this next line is essential when adding rows
         self.model.row_count = self.model.row_count + 1
         self.mapper.toLast()
+        self.ui.txtBody.setFocus()
         #self.clear_fields()
 
     @Slot()

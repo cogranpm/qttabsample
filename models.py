@@ -237,6 +237,8 @@ class QuestionModel(QAbstractTableModel):
 
     # todo, should we look at
     # insertRows, removeRows, setData (for editing)
+
+    # note, we don't use this, instead each front end calls beginInsert etc
     def insertRows(self, position, rows=1, index=QModelIndex()):
         self.beginInsertRows(index, position, position + rows - 1)
         for row in range(rows):
