@@ -5,123 +5,7 @@ import typing
 from question_form import Ui_Form
 import dataset
 from collections import OrderedDict
-
-
-class ItemModel(QStandardItemModel):
-
-    def __init__(self):
-        QStandardItemModel.__init__(None)
-
-    def index(self, row:int, column:int, parent:QModelIndex= QModelIndex()) -> QModelIndex:
-        pass
-
-    def parent(self) -> QObject:
-        pass
-
-    def rowCount(self, parent:QModelIndex= QModelIndex()) -> int:
-        pass
-
-    def columnCount(self, parent:QModelIndex= QModelIndex()) -> int:
-        pass
-
-    def data(self, index:QModelIndex, role:int=...) -> typing.Any:
-        pass
-
-    def setData(self, index:QModelIndex, value:typing.Any, role:int=...) -> bool:
-        pass
-
-    def flags(self, index:QModelIndex) -> Qt.ItemFlags:
-        pass
-
-
-class QuestionModel(QAbstractTableModel):
-
-    def __init__(self, data=None):
-        QAbstractTableModel.__init__(self)
-        self.load_data(data)
-
-    def load_data(self, data):
-        self.data_set = data
-        self.column_count = 3
-        self.row_count = len(self.data_set)
-
-
-    def rowCount(self, parent=QModelIndex):
-        return self.row_count
-
-    def columnCount(self, parent=QModelIndex):
-        return self.column_count
-
-    def headerData(self, section, orientation, role):
-        if role != Qt.DisplayRole:
-            return None
-        if orientation == Qt.Horizontal:
-            return ("Body", "Tag", "Answer")[section]
-        else:
-            return "{}".format(section)
-
-    def data(self, index, role=Qt.DisplayRole):
-
-        if not index.isValid():
-            return None
-        column = index.column()
-        row = index.row()
-
-        #print(f"I am data-ing here, column: {column} row: {row}")
-        if role == Qt.DisplayRole:
-            if column == 0:
-                list_item = self.data_set[row]
-                return list_item['body']
-            elif column == 1:
-                return self.data_set[row]['tag']
-            else:
-                return self.data_set[row]['answer']
-        # more stuff
-        return None
-
-    def flags(self, index):
-        if not index.isValid():
-            return Qt.ItemIsEnabled
-        return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable )
-
-    def setData(self, index, value, role: int = Qt.EditRole):
-        if role != Qt.EditRole:
-            return False
-
-        if index.isValid() and 0 <= index.row() < len(self.data_set):
-            question = self.data_set[index.row()]
-            if index.column() == 0:
-                question["body"] = value
-            elif index.column() == 1:
-                question["tag"] = value
-            elif index.column() == 2:
-                question["answer"] = value
-            else:
-                return False
-
-            self.dataChanged.emit(index, index, 0)
-            return True
-        return False
-
-    # todo, should we look at
-    # insertRows, removeRows, setData (for editing)
-    def insertRows(self, position, rows=1, index=QModelIndex()):
-        self.beginInsertRows(index, position, position + rows - 1)
-        for row in range(rows):
-            self.data_set.insert(position + row, {'body': 'how to create immutable map in python', 'tag': 'collections',
-                              'answer': 'there is no way to do it'})
-        #self.data_set.append({'body': 'how to create immutable map in python', 'tag': 'collections', 'answer': 'there is no way to do it'})
-        self.endInsertRows()
-        #return QAbstractTableModel.insertRows(self, row, count, index)
-        return True
-
-    # def insertRow(self, row, index=QModelIndex()):
-    #     self.beginInsertRows(index, row, row)
-    #     self.data_set.append({'body': 'how to create immutable map in python', 'tag': 'collections',
-    #                           'answer': 'there is no way to do it'})
-    #     self.endInsertRows()
-    #     return True
-
+from models import QuestionModel
 
 class QuestionFormView(QWidget):
 
@@ -146,13 +30,9 @@ class QuestionFormView(QWidget):
         self.data_table: dataset.Table = self.db['questions']
         # all call is not actually required here, but makes things explicit
         all_data: dataset.util.ResultIter = self.data_table.all()
-        widget_model: QStandardItemModel = QStandardItemModel()
         # each record in a table is an ordered dict with all the fields
-        index = 0
         for record in all_data:
             data.append(record)
-            self.setup_mapper(index, record, widget_model)
-            index += 1
 
         # store the abstract table model derived instance
         self.model = QuestionModel(data)
@@ -162,9 +42,7 @@ class QuestionFormView(QWidget):
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.selectionModel().selectionChanged.connect(self.select_item)
 
-        widget_model.setRowCount(index)
-        widget_model.setColumnCount(4)
-        self.mapper.setModel(widget_model)
+        self.mapper.setModel(self.model)
         # note, it's essential this stuff comes after the call to setModel on the QDataWidgetMapper instance
         self.mapper.addMapping(self.ui.txtID, 0)
         self.mapper.addMapping(self.ui.txtBody, 1)
@@ -175,11 +53,11 @@ class QuestionFormView(QWidget):
     def showEvent(self, event: QShowEvent):
         print('I am called when form is shown')
 
-    def setup_mapper(self, index: int, row: OrderedDict, model: QStandardItemModel):
-        model.setItem(index, 0, QStandardItem(str(row['id'])))
-        model.setItem(index, 1, QStandardItem(row['body']))
-        model.setItem(index, 2, QStandardItem(row['tag']))
-        model.setItem(index, 3, QStandardItem(row['answer']))
+    def clear_fields(self):
+        self.ui.txtID.setText('')
+        self.ui.txtAnswer.setPlainText('')
+        self.ui.txtBody.setText('')
+        self.ui.cboTags.setCurrentIndex(0)
 
     @Slot()
     def select_item(self):
@@ -189,13 +67,16 @@ class QuestionFormView(QWidget):
 
     @Slot()
     def add_click(self):
-        new_question = {"body": self.ui.txtBody.text(), "tag": self.ui.cboTags.itemData(self.ui.cboTags.currentIndex()),
-                        "answer": self.ui.txtAnswer.text()}
+        #new_question = {"body": self.ui.txtBody.text(), "tag": self.ui.cboTags.itemData(self.ui.cboTags.currentIndex()),
+        #               "answer": self.ui.txtAnswer.text()}
+        new_question = {'id': -1, 'body': '', 'tag': '', 'answer': ''}
         self.model.beginInsertRows(QModelIndex(), self.model.row_count, self.model.row_count)
         self.model.data_set.append(new_question)
         self.model.endInsertRows()
         # this next line is essential when adding rows
         self.model.row_count = self.model.row_count + 1
+        self.mapper.toLast()
+        #self.clear_fields()
 
     @Slot()
     def save_click(self):
@@ -205,11 +86,12 @@ class QuestionFormView(QWidget):
         body = self.get_model_data(current_index, 1)
         tag = self.get_model_data(current_index, 2)
         answer = self.get_model_data(current_index, 3)
-        id = self.get_model_data(current_index, 0)
-        #print(id, body, answer, tag)
-        print(type(id))
+        record_id = self.get_model_data(current_index, 0)
         # lets update the database
-        self.data_table.upsert(dict(id=id, body= body, tag= tag, answer= answer), ['id'])
+        if record_id == -1:
+            self.data_table.insert(dict(body= body, tag= tag, answer= answer))
+        else:
+            self.data_table.upsert(dict(id=record_id, body= body, tag= tag, answer= answer), ['id'])
 
     def get_model_data(self, row, column):
         index: QModelIndex = self.mapper.model().index(row, column)

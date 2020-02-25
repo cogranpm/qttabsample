@@ -1,5 +1,5 @@
 """ module for all models in the program """
-from PySide2.QtCore import QAbstractItemModel, QModelIndex, QObject, Qt
+from PySide2.QtCore import QAbstractItemModel, QModelIndex, QObject, Qt, QAbstractTableModel
 from PySide2.QtGui import QIcon
 
 
@@ -160,3 +160,97 @@ class NavigationModel(QAbstractItemModel):
             parent_item: NavigationItem = parent.internalPointer()
             return parent_item.column_count()
         return self._root_item.column_count()
+
+
+class QuestionModel(QAbstractTableModel):
+
+    def __init__(self, data=None):
+        QAbstractTableModel.__init__(self)
+        self.load_data(data)
+
+    def load_data(self, data):
+        self.data_set = data
+        self.column_count = 4
+        self.row_count = len(self.data_set)
+
+
+    def rowCount(self, parent=QModelIndex):
+        return self.row_count
+
+    def columnCount(self, parent=QModelIndex):
+        return self.column_count
+
+    def headerData(self, section, orientation, role):
+        if role != Qt.DisplayRole:
+            return None
+        if orientation == Qt.Horizontal:
+            return ("Id", "Body", "Tag", "Answer")[section]
+        else:
+            return "{}".format(section)
+
+    def data(self, index, role=Qt.DisplayRole):
+
+        if not index.isValid():
+            return None
+        column = index.column()
+        row = index.row()
+
+        #print(f"I am data-ing here, column: {column} row: {row}")
+        if role == Qt.DisplayRole or role == Qt.EditRole:
+            if column == 0:
+                return self.data_set[row]['id']
+            elif column == 1:
+                list_item = self.data_set[row]
+                return list_item['body']
+            elif column == 2:
+                return self.data_set[row]['tag']
+            elif column == 3:
+                return self.data_set[row]['answer']
+        # more stuff
+        return None
+
+    def flags(self, index):
+        if not index.isValid():
+            return Qt.ItemIsEnabled
+        return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable )
+
+    def setData(self, index, value, role: int = Qt.EditRole):
+        if role != Qt.EditRole:
+            return False
+
+        if index.isValid() and 0 <= index.row() < len(self.data_set):
+            question = self.data_set[index.row()]
+            if index.column() == 0:
+                question["id"] = value
+            elif index.column() == 1:
+                question["body"] = value
+            elif index.column() == 2:
+                question["tag"] = value
+            elif index.column() == 3:
+                question["answer"] = value
+            else:
+                return False
+
+            self.dataChanged.emit(index, index, 0)
+            return True
+        return False
+
+    # todo, should we look at
+    # insertRows, removeRows, setData (for editing)
+    def insertRows(self, position, rows=1, index=QModelIndex()):
+        self.beginInsertRows(index, position, position + rows - 1)
+        for row in range(rows):
+            self.data_set.insert(position + row, {'body': 'how to create immutable map in python', 'tag': 'collections',
+                              'answer': 'there is no way to do it'})
+        #self.data_set.append({'body': 'how to create immutable map in python', 'tag': 'collections', 'answer': 'there is no way to do it'})
+        self.endInsertRows()
+        #return QAbstractTableModel.insertRows(self, row, count, index)
+        return True
+
+    # def insertRow(self, row, index=QModelIndex()):
+    #     self.beginInsertRows(index, row, row)
+    #     self.data_set.append({'body': 'how to create immutable map in python', 'tag': 'collections',
+    #                           'answer': 'there is no way to do it'})
+    #     self.endInsertRows()
+    #     return True
+
