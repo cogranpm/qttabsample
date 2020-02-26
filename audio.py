@@ -56,7 +56,7 @@ def test_sound_card(dummy, default_mic, file_name):
     print(file_name)
     wav_file = wave.open(file_name, 'w')
     wav_file.setnchannels(default_mic.channels)
-    wav_file.setsampwidth(1)
+    wav_file.setsampwidth(4)
     wav_file.setframerate(sample_rate)
 
     t = threading.current_thread()
