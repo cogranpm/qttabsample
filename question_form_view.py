@@ -7,6 +7,7 @@ import dataset
 from collections import OrderedDict
 from models import QuestionModel
 import audio
+import threading
 
 class QuestionFormView(QWidget):
 
@@ -26,7 +27,13 @@ class QuestionFormView(QWidget):
         self.ui.btnAdd.clicked.connect(self.add_click)
         self.ui.btnSave.clicked.connect(self.save_click)
         self.ui.btnDelete.clicked.connect(self.delete_click)
+
         self.ui.btnSoundTest.clicked.connect(self.sound_test_click)
+        self.audio_recording = False
+        self.audio_thread = None
+        self.default_mic = audio.get_default_mic()
+        self.default_speaker = audio.get_default_speaker()
+
         self.mapper = QDataWidgetMapper()
         # using the dataset sql library to connect to sqlite
         self.db = dataset.connect('sqlite:///kernai.db')
@@ -68,7 +75,21 @@ class QuestionFormView(QWidget):
 
     @Slot()
     def sound_test_click(self):
-        audio.test_sound_card()
+        self.audio_recording = not self.audio_recording
+        if self.audio_recording:
+            self.ui.btnSoundTest.setText("Stop Audio")
+            self.audio_thread = threading.Thread(target=audio.test_sound_card, args=('Recording...', self.default_mic, 'demo.wav'))
+            self.audio_thread.start()
+            #audio.test_sound_card()
+        else:
+            self.audio_thread.do_run = False
+            self.audio_thread.join()
+            # should put this on another killable thread
+            audio.play_audio(self.default_speaker)
+            self.ui.btnSoundTest.setText("Start Audio")
+
+        # audio.test_pyaudio()
+
 
     @Slot()
     def select_item(self):
