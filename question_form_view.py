@@ -6,6 +6,7 @@ from question_form import Ui_Form
 import dataset
 from collections import OrderedDict
 from models import QuestionModel
+import audio
 
 class QuestionFormView(QWidget):
 
@@ -25,6 +26,7 @@ class QuestionFormView(QWidget):
         self.ui.btnAdd.clicked.connect(self.add_click)
         self.ui.btnSave.clicked.connect(self.save_click)
         self.ui.btnDelete.clicked.connect(self.delete_click)
+        self.ui.btnSoundTest.clicked.connect(self.sound_test_click)
         self.mapper = QDataWidgetMapper()
         # using the dataset sql library to connect to sqlite
         self.db = dataset.connect('sqlite:///kernai.db')
@@ -63,6 +65,10 @@ class QuestionFormView(QWidget):
 
     def run_delete_query(self, id:int):
         self.data_table.delete(id=id)
+
+    @Slot()
+    def sound_test_click(self):
+        audio.test_sound_card()
 
     @Slot()
     def select_item(self):

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'question_form.ui',
 # licensing of 'question_form.ui' applies.
 #
-# Created: Tue Feb 25 17:28:18 2020
+# Created: Wed Feb 26 09:52:05 2020
 #      by: pyside2-uic  running on PySide2 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,6 +23,9 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
+        self.btnSoundTest = QtWidgets.QPushButton(Form)
+        self.btnSoundTest.setObjectName("btnSoundTest")
+        self.horizontalLayout.addWidget(self.btnSoundTest)
         self.btnDelete = QtWidgets.QPushButton(Form)
         self.btnDelete.setMaximumSize(QtCore.QSize(120, 16777215))
         self.btnDelete.setObjectName("btnDelete")
@@ -89,6 +92,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtWidgets.QApplication.translate("Form", "Form", None, -1))
         self.lblHeader.setText(QtWidgets.QApplication.translate("Form", "Questions", None, -1))
+        self.btnSoundTest.setText(QtWidgets.QApplication.translate("Form", "Sound Test", None, -1))
         self.btnDelete.setText(QtWidgets.QApplication.translate("Form", "&Delete", None, -1))
         self.btnAdd.setText(QtWidgets.QApplication.translate("Form", "&Add", None, -1))
         self.groupBox.setTitle(QtWidgets.QApplication.translate("Form", "Edit", None, -1))

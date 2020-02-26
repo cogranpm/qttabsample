@@ -37,6 +37,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="btnSoundTest">
+       <property name="text">
+        <string>Sound Test</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="btnDelete">
        <property name="maximumSize">
         <size>
