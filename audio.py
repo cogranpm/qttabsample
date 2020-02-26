@@ -4,8 +4,6 @@ import numpy
 import time
 import threading
 
-
-
 # pyaudio imports
 from array import array
 from struct import pack
@@ -34,7 +32,7 @@ def get_default_mic():
     #speakers = sc.all_speakers()
     #mics = sc.all_microphones()
     default_mic = sc.default_microphone()
-    print(default_mic)
+    print(default_mic.channels)
     return sc.default_microphone()
 
 def get_default_speaker():
@@ -57,8 +55,8 @@ def test_sound_card(dummy, default_mic, file_name):
     print(dummy)
     print(file_name)
     wav_file = wave.open(file_name, 'w')
-    wav_file.setnchannels(2)
-    wav_file.setsampwidth(2)
+    wav_file.setnchannels(default_mic.channels)
+    wav_file.setsampwidth(1)
     wav_file.setframerate(sample_rate)
 
     t = threading.current_thread()
@@ -67,11 +65,13 @@ def test_sound_card(dummy, default_mic, file_name):
             data = mic.record(numframes=1024)
             audio_data.append(data)
             wav_file.writeframesraw(data)
-            print('Data:', data)
+            print(type(data)) # turns out this is a numpy array type
+            print('Data:', len(data))
         #for _ in range(100):
         #    data = mic.record(numframes=1024)
             #sp.play(data=data)
 
+    # the wav file doesn't sound right at present
     wav_file.close()
     print("done recording")
     #data = default_mic.record(samplerate=sample_rate, numframes=num_frames)
