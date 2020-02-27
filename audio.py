@@ -3,6 +3,7 @@ import soundcard as sc
 import numpy
 import time
 import threading
+from scipy.io import wavfile
 
 # pyaudio imports
 from array import array
@@ -44,6 +45,7 @@ def play_audio(default_speaker):
     with default_speaker.player(samplerate=sample_rate) as sp:
         for audio_segment in audio_data:
             sp.play(data=audio_segment)
+            wavfile.write('demo.wav', sample_rate, audio_segment)
     print("played it")
 
 def write_audio(file_name):
@@ -54,25 +56,31 @@ def test_sound_card(dummy, default_mic, file_name):
     audio_data.clear()
     print(dummy)
     print(file_name)
-    wav_file = wave.open(file_name, 'w')
-    wav_file.setnchannels(default_mic.channels)
-    wav_file.setsampwidth(4)
-    wav_file.setframerate(sample_rate)
+
+    # pure python method
+    # wav_file = wave.open(file_name, 'w')
+    # wav_file.setnchannels(default_mic.channels)
+    # wav_file.setsampwidth(4)
+    # wav_file.setframerate(sample_rate)
 
     t = threading.current_thread()
     with default_mic.recorder(samplerate=sample_rate) as mic:
         while getattr(t, 'do_run', True):
             data = mic.record(numframes=1024)
+            #wavfile.write(file_name, sample_rate, data)
             audio_data.append(data)
-            wav_file.writeframesraw(data)
-            print(type(data)) # turns out this is a numpy array type
-            print('Data:', len(data))
+            #numpy.append(audio_data, data)
+            #wav_file.writeframesraw(data)
+            #print(type(data)) # turns out this is a numpy array type
+            #print('Data:', len(data))
         #for _ in range(100):
         #    data = mic.record(numframes=1024)
             #sp.play(data=data)
 
     # the wav file doesn't sound right at present
-    wav_file.close()
+    #wav_file.close()
+
+
     print("done recording")
     #data = default_mic.record(samplerate=sample_rate, numframes=num_frames)
     #time.sleep(5)
