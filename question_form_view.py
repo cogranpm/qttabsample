@@ -8,6 +8,9 @@ from collections import OrderedDict
 from models import QuestionModel
 #import audio
 import threading
+import time
+from datetime import date
+
 
 class QuestionFormView(QWidget):
 
@@ -116,6 +119,8 @@ class QuestionFormView(QWidget):
     def add_click(self):
         #new_question = {"body": self.ui.txtBody.text(), "tag": self.ui.cboTags.itemData(self.ui.cboTags.currentIndex()),
         #               "answer": self.ui.txtAnswer.text()}
+        today = date.today()
+        print(date.fromtimestamp(time.time()))
         new_question = {'id': -1, 'body': '', 'tag': '', 'answer': ''}
         self.model.beginInsertRows(QModelIndex(), self.model.row_count, self.model.row_count)
         self.model.data_set.append(new_question)
