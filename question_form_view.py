@@ -62,6 +62,8 @@ class QuestionFormView(QWidget):
         self.mapper.addMapping(self.ui.cboTags, 2)
         self.mapper.addMapping(self.ui.txtAnswer, 3)
 
+        self.model.dataChanged.connect(self.data_changed_handler)
+
 
     def showEvent(self, event: QShowEvent):
         print('I am called when form is shown')
@@ -75,6 +77,13 @@ class QuestionFormView(QWidget):
 
     def run_delete_query(self, id:int):
         self.data_table.delete(id=id)
+
+    @Slot()
+    def data_changed_handler(self, top, left, mode):
+        print("changes in model detected")
+        print("Mode:{mode}".format(mode=mode))
+        print("Top:{0}".format(top))
+
 
     @Slot()
     def sound_test_click(self):
