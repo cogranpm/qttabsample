@@ -26,7 +26,6 @@ class MainWindow(QMainWindow):
         self.ui.actionDatabase_Test.triggered.connect(self.handle_action_database_test)
         QObject.connect(self.ui.tabWidget, SIGNAL('tabCloseRequested(int)'), self.closeTab)
 
-
         # view, navTree holds model instance, navModel
         # self.ui.navTree.setModel(self.navModel)
         self.ui.navTree.setModel(NavigationModel())
