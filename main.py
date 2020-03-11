@@ -3,6 +3,11 @@ import sys
 from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtGui import QStandardItemModel, QStandardItem, QIcon
 from PySide2.QtCore import QItemSelectionModel, Slot, QObject, SIGNAL
+
+#from pyside2.QtWidgets import QApplication, QMainWindow
+#from pyside2.QtGui import QStandardItemModel, QStandardItem, QIcon
+#from pyside2.QtCore import QItemSelectionModel, Slot, QObject, SIGNAL
+
 from mainwindow import Ui_MainWindow
 from tabsample import TabSample
 from christmas_tree_view import ChristmasTreeView
