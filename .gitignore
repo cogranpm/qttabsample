@@ -4,3 +4,6 @@ env
 venv
 *.~
 /demo.wav
+/build/
+/KernaiQT.spec
+/main.spec
