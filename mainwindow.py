@@ -1,100 +1,129 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainwindow.ui',
-# licensing of 'mainwindow.ui' applies.
-#
-# Created: Mon Feb 24 11:09:32 2020
-#      by: pyside2-uic  running on PySide2 5.13.1
-#
-# WARNING! All changes made in this file will be lost!
+################################################################################
+## Form generated from reading UI file 'mainwindow.ui'
+##
+## Created by: Qt User Interface Compiler version 5.14.1
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
+    QRect, QSize, QUrl, Qt)
+from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
+    QRadialGradient)
+from PySide2.QtWidgets import *
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        if MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1001, 666)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.splitter = QtWidgets.QSplitter(self.centralwidget)
-        self.splitter.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter.setObjectName("splitter")
-        self.frmNav = QtWidgets.QFrame(self.splitter)
-        self.frmNav.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frmNav.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frmNav.setObjectName("frmNav")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.frmNav)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.navTree = QtWidgets.QTreeView(self.frmNav)
-        self.navTree.setObjectName("navTree")
+        self.actionQuit = QAction(MainWindow)
+        self.actionQuit.setObjectName(u"actionQuit")
+        self.actionChristmas_Tree = QAction(MainWindow)
+        self.actionChristmas_Tree.setObjectName(u"actionChristmas_Tree")
+        self.actionDatabase_Test = QAction(MainWindow)
+        self.actionDatabase_Test.setObjectName(u"actionDatabase_Test")
+        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.verticalLayout = QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.splitter = QSplitter(self.centralwidget)
+        self.splitter.setObjectName(u"splitter")
+        self.splitter.setOrientation(Qt.Horizontal)
+        self.frmNav = QFrame(self.splitter)
+        self.frmNav.setObjectName(u"frmNav")
+        self.frmNav.setFrameShape(QFrame.StyledPanel)
+        self.frmNav.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_2 = QVBoxLayout(self.frmNav)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.navTree = QTreeView(self.frmNav)
+        self.navTree.setObjectName(u"navTree")
+
         self.verticalLayout_2.addWidget(self.navTree)
-        self.frmMain = QtWidgets.QFrame(self.splitter)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+
+        self.splitter.addWidget(self.frmNav)
+        self.frmMain = QFrame(self.splitter)
+        self.frmMain.setObjectName(u"frmMain")
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(2)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frmMain.sizePolicy().hasHeightForWidth())
         self.frmMain.setSizePolicy(sizePolicy)
-        self.frmMain.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frmMain.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frmMain.setObjectName("frmMain")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frmMain)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.btnAddTab = QtWidgets.QPushButton(self.frmMain)
-        self.btnAddTab.setObjectName("btnAddTab")
+        self.frmMain.setFrameShape(QFrame.StyledPanel)
+        self.frmMain.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frmMain)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.btnAddTab = QPushButton(self.frmMain)
+        self.btnAddTab.setObjectName(u"btnAddTab")
+
         self.verticalLayout_3.addWidget(self.btnAddTab)
-        self.tabWidget = QtWidgets.QTabWidget(self.frmMain)
+
+        self.tabWidget = QTabWidget(self.frmMain)
+        self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setTabsClosable(True)
-        self.tabWidget.setObjectName("tabWidget")
-        self.tab = QtWidgets.QWidget()
-        self.tab.setObjectName("tab")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
         self.tabWidget.addTab(self.tab, "")
-        self.tabTest = QtWidgets.QWidget()
-        self.tabTest.setObjectName("tabTest")
+        self.tabTest = QWidget()
+        self.tabTest.setObjectName(u"tabTest")
         self.tabWidget.addTab(self.tabTest, "")
+
         self.verticalLayout_3.addWidget(self.tabWidget)
+
+        self.splitter.addWidget(self.frmMain)
+
         self.verticalLayout.addWidget(self.splitter)
+
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1001, 22))
-        self.menubar.setObjectName("menubar")
-        self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
-        self.menuAction = QtWidgets.QMenu(self.menubar)
-        self.menuAction.setObjectName("menuAction")
+        self.menubar = QMenuBar(MainWindow)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 1001, 22))
+        self.menuFile = QMenu(self.menubar)
+        self.menuFile.setObjectName(u"menuFile")
+        self.menuAction = QMenu(self.menubar)
+        self.menuAction.setObjectName(u"menuAction")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
+        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.actionQuit = QtWidgets.QAction(MainWindow)
-        self.actionQuit.setObjectName("actionQuit")
-        self.actionChristmas_Tree = QtWidgets.QAction(MainWindow)
-        self.actionChristmas_Tree.setObjectName("actionChristmas_Tree")
-        self.actionDatabase_Test = QtWidgets.QAction(MainWindow)
-        self.actionDatabase_Test.setObjectName("actionDatabase_Test")
+
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuAction.menuAction())
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionQuit)
         self.menuAction.addAction(self.actionChristmas_Tree)
         self.menuAction.addAction(self.actionDatabase_Test)
-        self.menubar.addAction(self.menuFile.menuAction())
-        self.menubar.addAction(self.menuAction.menuAction())
 
         self.retranslateUi(MainWindow)
+
         self.tabWidget.setCurrentIndex(1)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+
+        QMetaObject.connectSlotsByName(MainWindow)
+    # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "MainWindow", None, -1))
-        self.btnAddTab.setText(QtWidgets.QApplication.translate("MainWindow", "Add Tab", None, -1))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtWidgets.QApplication.translate("MainWindow", "Property", None, -1))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabTest), QtWidgets.QApplication.translate("MainWindow", "Loaded", None, -1))
-        self.menuFile.setTitle(QtWidgets.QApplication.translate("MainWindow", "File", None, -1))
-        self.menuAction.setTitle(QtWidgets.QApplication.translate("MainWindow", "Action", None, -1))
-        self.actionQuit.setText(QtWidgets.QApplication.translate("MainWindow", "Quit", None, -1))
-        self.actionQuit.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
-        self.actionChristmas_Tree.setText(QtWidgets.QApplication.translate("MainWindow", "Christmas Tree", None, -1))
-        self.actionChristmas_Tree.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+X", None, -1))
-        self.actionDatabase_Test.setText(QtWidgets.QApplication.translate("MainWindow", "Database Test", None, -1))
-        self.actionDatabase_Test.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+D", None, -1))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.actionQuit.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
+#if QT_CONFIG(shortcut)
+        self.actionQuit.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Q", None))
+#endif // QT_CONFIG(shortcut)
+        self.actionChristmas_Tree.setText(QCoreApplication.translate("MainWindow", u"Christmas Tree", None))
+#if QT_CONFIG(shortcut)
+        self.actionChristmas_Tree.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+X", None))
+#endif // QT_CONFIG(shortcut)
+        self.actionDatabase_Test.setText(QCoreApplication.translate("MainWindow", u"Database Test", None))
+#if QT_CONFIG(shortcut)
+        self.actionDatabase_Test.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+D", None))
+#endif // QT_CONFIG(shortcut)
+        self.btnAddTab.setText(QCoreApplication.translate("MainWindow", u"Add Tab", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Property", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabTest), QCoreApplication.translate("MainWindow", u"Loaded", None))
+        self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
+        self.menuAction.setTitle(QCoreApplication.translate("MainWindow", u"Action", None))
+    # retranslateUi
 

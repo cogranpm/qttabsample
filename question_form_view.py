@@ -1,4 +1,4 @@
-from PySide2.QtCore import Signal, Slot, Qt, QAbstractTableModel, QModelIndex, QAbstractItemModel, QObject
+from PySide2.QtCore import Signal, Slot, Qt, QAbstractTableModel, QModelIndex, QAbstractItemModel, QObject, QSortFilterProxyModel
 from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor, QStandardItemModel, QStandardItem
 from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView, QDataWidgetMapper, QMessageBox
 import typing
@@ -49,7 +49,13 @@ class QuestionFormView(QWidget):
 
         # store the abstract table model derived instance
         self.model = QuestionModel(data)
-        self.table.setModel(self.model)
+        #self.table.setModel(self.model)
+        self.proxy_model = QSortFilterProxyModel()
+        self.proxy_model.setSourceModel(self.model)
+        self.proxy_model.setSortCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.table.setModel(self.proxy_model)
+        self.table.setSortingEnabled(True)
+
         self.selections = self.table.selectionModel()
         self.table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
