@@ -1,0 +1,1 @@
+E:\Tools\WinPython\WPy64-3760\python-3.7.6.amd64\pythonw.exe "main.py"
