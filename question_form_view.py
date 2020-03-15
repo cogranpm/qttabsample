@@ -6,11 +6,12 @@ from question_form import Ui_Form
 import dataset
 from collections import OrderedDict
 from models import QuestionModel
+from list_model import ListModel
 #import audio
 import threading
 import time
 from datetime import date
-
+from collections import namedtuple
 
 class QuestionFormView(QWidget):
 
@@ -21,7 +22,6 @@ class QuestionFormView(QWidget):
         tags = ['collections', 'other', 'functional']
         for tag in tags:
             self.ui.cboTags.addItem(tag, tag)
-        #data = [{'body': 'something', 'tag': 'collections', 'answer': 'answer'}, {'body': 'who invented perl', 'tag': 'functional', 'answer': 'Larry Wall'}]
 
         # declare the list holding data used by the form, local variable that will be referenced by the model
         # is a list of OrderedDict items
@@ -48,8 +48,14 @@ class QuestionFormView(QWidget):
             data.append(record)
 
         # store the abstract table model derived instance
-        self.model = QuestionModel(data)
-        #self.table.setModel(self.model)
+        HeaderSpec = namedtuple('HeaderSpec', ['fieldname', 'title'])
+        idspec = HeaderSpec('id', 'ID')
+        questionspec = HeaderSpec('body', 'Body')
+        tagspec = HeaderSpec('tag', 'Tag')
+        answerspec = HeaderSpec('answer', 'Answer')
+        headerspecs = [idspec, questionspec, tagspec, answerspec]
+        #self.model = QuestionModel(data)
+        self.model = ListModel(data, headerspecs)
         self.proxy_model = QSortFilterProxyModel()
         self.proxy_model.setSourceModel(self.model)
         self.proxy_model.setSortCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
@@ -61,7 +67,7 @@ class QuestionFormView(QWidget):
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.selectionModel().selectionChanged.connect(self.select_item)
 
-        self.mapper.setModel(self.model)
+        self.mapper.setModel(self.proxy_model)
         # note, it's essential this stuff comes after the call to setModel on the QDataWidgetMapper instance
         self.mapper.addMapping(self.ui.txtID, 0)
         self.mapper.addMapping(self.ui.txtBody, 1)

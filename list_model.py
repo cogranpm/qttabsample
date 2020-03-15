@@ -46,17 +46,8 @@ class ListModel(QAbstractTableModel):
 
         if index.isValid() and 0 <= index.row() < len(self.data_set):
             question = self.data_set[index.row()]
-            if index.column() == 0:
-                question["id"] = value
-            elif index.column() == 1:
-                question["body"] = value
-            elif index.column() == 2:
-                question["tag"] = value
-            elif index.column() == 3:
-                question["answer"] = value
-            else:
-                return False
-
+            column = index.column()
+            question[self.headerspec[column].fieldname] = value
             self.dataChanged.emit(index, index, 0)
             return True
         return False
