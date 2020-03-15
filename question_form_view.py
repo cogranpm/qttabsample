@@ -5,7 +5,6 @@ import typing
 from question_form import Ui_Form
 import dataset
 from collections import OrderedDict
-from models import QuestionModel
 from list_model import ListModel
 #import audio
 import threading
@@ -30,6 +29,7 @@ class QuestionFormView(QWidget):
         self.ui.btnAdd.clicked.connect(self.add_click)
         self.ui.btnSave.clicked.connect(self.save_click)
         self.ui.btnDelete.clicked.connect(self.delete_click)
+        self.ui.btnSave.setEnabled(False)
 
         self.ui.btnSoundTest.clicked.connect(self.sound_test_click)
         self.audio_recording = False
@@ -92,6 +92,7 @@ class QuestionFormView(QWidget):
 
     @Slot()
     def data_changed_handler(self, top, left, mode):
+        self.ui.btnSave.setEnabled(True)
         print("changes in model detected")
         print("Mode:{mode}".format(mode=mode))
         print("Top:{0}".format(top))
@@ -148,7 +149,8 @@ class QuestionFormView(QWidget):
         self.model.endInsertRows()
         # this next line is essential when adding rows
         self.model.row_count = self.model.row_count + 1
-        self.mapper.toLast()
+        #self.mapper.toLast()
+        self.ui.btnSave.setEnabled(True)
         self.ui.txtBody.setFocus()
         #self.clear_fields()
 
@@ -166,6 +168,7 @@ class QuestionFormView(QWidget):
             self.data_table.insert(dict(body= body, tag= tag, answer= answer))
         else:
             self.data_table.upsert(dict(id=record_id, body= body, tag= tag, answer= answer), ['id'])
+        self.ui.btnSave.setEnabled(False)
 
     def get_model_data(self, row, column):
         index: QModelIndex = self.mapper.model().index(row, column)
