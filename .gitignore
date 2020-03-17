@@ -7,3 +7,4 @@ venv
 /build/
 /KernaiQT.spec
 /main.spec
+/dist/kernaiqt/
