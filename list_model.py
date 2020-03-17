@@ -1,5 +1,7 @@
 from PySide2.QtCore import QModelIndex, QObject, Qt, QAbstractTableModel
+from collections import namedtuple
 
+HeaderSpec = namedtuple('HeaderSpec', ['fieldname', 'title'])
 
 class ListModel(QAbstractTableModel):
 

@@ -5,7 +5,7 @@ import typing
 from question_form import Ui_Form
 import dataset
 from collections import OrderedDict
-from list_model import ListModel
+from list_model import ListModel, HeaderSpec
 #import audio
 import threading
 import time
@@ -48,7 +48,7 @@ class QuestionFormView(QWidget):
             data.append(record)
 
         # store the abstract table model derived instance
-        HeaderSpec = namedtuple('HeaderSpec', ['fieldname', 'title'])
+
         idspec = HeaderSpec('id', 'ID')
         questionspec = HeaderSpec('body', 'Body')
         tagspec = HeaderSpec('tag', 'Tag')
