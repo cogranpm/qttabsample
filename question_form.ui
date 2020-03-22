@@ -39,7 +39,7 @@
      <item>
       <widget class="QPushButton" name="btnSoundTest">
        <property name="text">
-        <string>Sound Test</string>
+        <string>Tests</string>
        </property>
       </widget>
      </item>
@@ -102,9 +102,6 @@
          <widget class="QLabel" name="label">
           <property name="text">
            <string>Question:</string>
-          </property>
-          <property name="buddy">
-           <cstring></cstring>
           </property>
          </widget>
         </item>

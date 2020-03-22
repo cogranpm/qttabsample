@@ -2,8 +2,6 @@ import sys
 from PySide2.QtWidgets import QApplication
 from PySide2.QtCore import QObject, Signal, Slot
 
-app = QApplication(sys.argv)
-
 @Slot(str)
 def say_some_words(words):
     print(words)
@@ -16,5 +14,10 @@ def test_signal():
     someone = SignalExample()
     someone.speak.connect(say_some_words)
     someone.speak.emit("helloworldlybeings")
+
+
+app = QApplication(sys.argv)
+test_signal()
+
 
 

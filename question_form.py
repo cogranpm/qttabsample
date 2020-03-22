@@ -1,104 +1,154 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'question_form.ui',
-# licensing of 'question_form.ui' applies.
-#
-# Created: Wed Feb 26 09:52:05 2020
-#      by: pyside2-uic  running on PySide2 5.13.1
-#
-# WARNING! All changes made in this file will be lost!
+################################################################################
+## Form generated from reading UI file 'question_form.ui'
+##
+## Created by: Qt User Interface Compiler version 5.14.1
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
+    QRect, QSize, QUrl, Qt)
+from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
+    QRadialGradient)
+from PySide2.QtWidgets import *
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        Form.setObjectName("Form")
+        if Form.objectName():
+            Form.setObjectName(u"Form")
         Form.resize(664, 591)
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.lblHeader = QtWidgets.QLabel(Form)
-        self.lblHeader.setObjectName("lblHeader")
+        self.verticalLayout_2 = QVBoxLayout(Form)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.lblHeader = QLabel(Form)
+        self.lblHeader.setObjectName(u"lblHeader")
+
         self.verticalLayout_2.addWidget(self.lblHeader)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.btnSoundTest = QtWidgets.QPushButton(Form)
-        self.btnSoundTest.setObjectName("btnSoundTest")
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.btnSoundTest = QPushButton(Form)
+        self.btnSoundTest.setObjectName(u"btnSoundTest")
+
         self.horizontalLayout.addWidget(self.btnSoundTest)
-        self.btnDelete = QtWidgets.QPushButton(Form)
-        self.btnDelete.setMaximumSize(QtCore.QSize(120, 16777215))
-        self.btnDelete.setObjectName("btnDelete")
+
+        self.btnDelete = QPushButton(Form)
+        self.btnDelete.setObjectName(u"btnDelete")
+        self.btnDelete.setMaximumSize(QSize(120, 16777215))
+
         self.horizontalLayout.addWidget(self.btnDelete)
-        self.btnAdd = QtWidgets.QPushButton(Form)
-        self.btnAdd.setMaximumSize(QtCore.QSize(120, 16777215))
-        self.btnAdd.setObjectName("btnAdd")
+
+        self.btnAdd = QPushButton(Form)
+        self.btnAdd.setObjectName(u"btnAdd")
+        self.btnAdd.setMaximumSize(QSize(120, 16777215))
+
         self.horizontalLayout.addWidget(self.btnAdd)
+
+
         self.verticalLayout_2.addLayout(self.horizontalLayout)
-        self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.questionView = QtWidgets.QTableView(Form)
+
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.questionView = QTableView(Form)
+        self.questionView.setObjectName(u"questionView")
         self.questionView.setAlternatingRowColors(True)
-        self.questionView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.questionView.setObjectName("questionView")
+        self.questionView.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.questionView.horizontalHeader().setCascadingSectionResizes(True)
-        self.questionView.horizontalHeader().setSortIndicatorShown(True)
+        self.questionView.horizontalHeader().setProperty("showSortIndicator", True)
         self.questionView.horizontalHeader().setStretchLastSection(True)
+
         self.verticalLayout.addWidget(self.questionView)
-        self.groupBox = QtWidgets.QGroupBox(Form)
-        self.groupBox.setObjectName("groupBox")
-        self.formLayout = QtWidgets.QFormLayout(self.groupBox)
-        self.formLayout.setObjectName("formLayout")
-        self.label = QtWidgets.QLabel(self.groupBox)
-        self.label.setObjectName("label")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label)
-        self.txtBody = QtWidgets.QLineEdit(self.groupBox)
-        self.txtBody.setObjectName("txtBody")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.txtBody)
-        self.label_2 = QtWidgets.QLabel(self.groupBox)
-        self.label_2.setObjectName("label_2")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_2)
-        self.cboTags = QtWidgets.QComboBox(self.groupBox)
-        self.cboTags.setObjectName("cboTags")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.cboTags)
-        self.label_3 = QtWidgets.QLabel(self.groupBox)
-        self.label_3.setObjectName("label_3")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_3)
-        self.txtAnswer = QtWidgets.QPlainTextEdit(self.groupBox)
-        self.txtAnswer.setObjectName("txtAnswer")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.txtAnswer)
-        self.txtID = QtWidgets.QLineEdit(self.groupBox)
+
+        self.groupBox = QGroupBox(Form)
+        self.groupBox.setObjectName(u"groupBox")
+        self.formLayout = QFormLayout(self.groupBox)
+        self.formLayout.setObjectName(u"formLayout")
+        self.label = QLabel(self.groupBox)
+        self.label.setObjectName(u"label")
+
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label)
+
+        self.txtBody = QLineEdit(self.groupBox)
+        self.txtBody.setObjectName(u"txtBody")
+
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.txtBody)
+
+        self.label_2 = QLabel(self.groupBox)
+        self.label_2.setObjectName(u"label_2")
+
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_2)
+
+        self.cboTags = QComboBox(self.groupBox)
+        self.cboTags.setObjectName(u"cboTags")
+
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.cboTags)
+
+        self.label_3 = QLabel(self.groupBox)
+        self.label_3.setObjectName(u"label_3")
+
+        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label_3)
+
+        self.txtAnswer = QPlainTextEdit(self.groupBox)
+        self.txtAnswer.setObjectName(u"txtAnswer")
+
+        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.txtAnswer)
+
+        self.txtID = QLineEdit(self.groupBox)
+        self.txtID.setObjectName(u"txtID")
         self.txtID.setEnabled(False)
-        self.txtID.setObjectName("txtID")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.txtID)
-        self.lblId = QtWidgets.QLabel(self.groupBox)
-        self.lblId.setObjectName("lblId")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.lblId)
+
+        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.txtID)
+
+        self.lblId = QLabel(self.groupBox)
+        self.lblId.setObjectName(u"lblId")
+
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.lblId)
+
+
         self.verticalLayout.addWidget(self.groupBox)
+
+
         self.verticalLayout_2.addLayout(self.verticalLayout)
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem1)
-        self.btnSave = QtWidgets.QPushButton(Form)
-        self.btnSave.setMaximumSize(QtCore.QSize(150, 16777215))
-        self.btnSave.setObjectName("btnSave")
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
+        self.btnSave = QPushButton(Form)
+        self.btnSave.setObjectName(u"btnSave")
+        self.btnSave.setMaximumSize(QSize(150, 16777215))
+
         self.horizontalLayout_2.addWidget(self.btnSave)
+
+
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
+
         self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+
+        QMetaObject.connectSlotsByName(Form)
+    # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QtWidgets.QApplication.translate("Form", "Form", None, -1))
-        self.lblHeader.setText(QtWidgets.QApplication.translate("Form", "Questions", None, -1))
-        self.btnSoundTest.setText(QtWidgets.QApplication.translate("Form", "Sound Test", None, -1))
-        self.btnDelete.setText(QtWidgets.QApplication.translate("Form", "&Delete", None, -1))
-        self.btnAdd.setText(QtWidgets.QApplication.translate("Form", "&Add", None, -1))
-        self.groupBox.setTitle(QtWidgets.QApplication.translate("Form", "Edit", None, -1))
-        self.label.setText(QtWidgets.QApplication.translate("Form", "Question:", None, -1))
-        self.label_2.setText(QtWidgets.QApplication.translate("Form", "Tag:", None, -1))
-        self.label_3.setText(QtWidgets.QApplication.translate("Form", "Answer:", None, -1))
-        self.lblId.setText(QtWidgets.QApplication.translate("Form", "ID", None, -1))
-        self.btnSave.setText(QtWidgets.QApplication.translate("Form", "&Save", None, -1))
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        self.lblHeader.setText(QCoreApplication.translate("Form", u"Questions", None))
+        self.btnSoundTest.setText(QCoreApplication.translate("Form", u"Tests", None))
+        self.btnDelete.setText(QCoreApplication.translate("Form", u"&Delete", None))
+        self.btnAdd.setText(QCoreApplication.translate("Form", u"&Add", None))
+        self.groupBox.setTitle(QCoreApplication.translate("Form", u"Edit", None))
+        self.label.setText(QCoreApplication.translate("Form", u"Question:", None))
+        self.label_2.setText(QCoreApplication.translate("Form", u"Tag:", None))
+        self.label_3.setText(QCoreApplication.translate("Form", u"Answer:", None))
+        self.lblId.setText(QCoreApplication.translate("Form", u"ID", None))
+        self.btnSave.setText(QCoreApplication.translate("Form", u"&Save", None))
+    # retranslateUi
 
