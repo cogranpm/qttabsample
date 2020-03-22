@@ -135,6 +135,9 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
 
+        self.btnSave.setDefault(True)
+
+
         QMetaObject.connectSlotsByName(Form)
     # setupUi
 
@@ -144,11 +147,20 @@ class Ui_Form(object):
         self.btnSoundTest.setText(QCoreApplication.translate("Form", u"Tests", None))
         self.btnDelete.setText(QCoreApplication.translate("Form", u"&Delete", None))
         self.btnAdd.setText(QCoreApplication.translate("Form", u"&Add", None))
+#if QT_CONFIG(shortcut)
+        self.btnAdd.setShortcut(QCoreApplication.translate("Form", u"Ctrl+N", None))
+#endif // QT_CONFIG(shortcut)
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"Edit", None))
         self.label.setText(QCoreApplication.translate("Form", u"Question:", None))
         self.label_2.setText(QCoreApplication.translate("Form", u"Tag:", None))
         self.label_3.setText(QCoreApplication.translate("Form", u"Answer:", None))
         self.lblId.setText(QCoreApplication.translate("Form", u"ID", None))
+#if QT_CONFIG(tooltip)
+        self.btnSave.setToolTip(QCoreApplication.translate("Form", u"Save", None))
+#endif // QT_CONFIG(tooltip)
         self.btnSave.setText(QCoreApplication.translate("Form", u"&Save", None))
+#if QT_CONFIG(shortcut)
+        self.btnSave.setShortcut(QCoreApplication.translate("Form", u"Ctrl+S", None))
+#endif // QT_CONFIG(shortcut)
     # retranslateUi
 

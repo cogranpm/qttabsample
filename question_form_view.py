@@ -1,6 +1,6 @@
 from PySide2.QtCore import Signal, Slot, Qt, QAbstractTableModel, QModelIndex, QAbstractItemModel, QObject, QSortFilterProxyModel
-from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor, QStandardItemModel, QStandardItem
-from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView, QDataWidgetMapper, QMessageBox
+from PySide2.QtGui import QBrush, QPen, QFont, QShowEvent, QResizeEvent, QColor, QStandardItemModel, QStandardItem, QKeySequence
+from PySide2.QtWidgets import QWidget, QMessageBox, QGraphicsScene, QGraphicsItem, QAbstractItemView, QDataWidgetMapper, QMessageBox, QShortcut
 import typing
 from question_form import Ui_Form
 import dataset
@@ -75,6 +75,8 @@ class QuestionFormView(QWidget):
         self.mapper.addMapping(self.ui.txtAnswer, 3)
 
         self.model.dataChanged.connect(self.data_changed_handler)
+
+
 
 
     def showEvent(self, event: QShowEvent):
