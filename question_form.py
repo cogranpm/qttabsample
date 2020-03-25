@@ -119,24 +119,11 @@ class Ui_Form(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
-
-        self.btnSave = QPushButton(Form)
-        self.btnSave.setObjectName(u"btnSave")
-        self.btnSave.setMaximumSize(QSize(150, 16777215))
-
-        self.horizontalLayout_2.addWidget(self.btnSave)
-
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
 
         self.retranslateUi(Form)
-
-        self.btnSave.setDefault(True)
-
 
         QMetaObject.connectSlotsByName(Form)
     # setupUi
@@ -155,12 +142,5 @@ class Ui_Form(object):
         self.label_2.setText(QCoreApplication.translate("Form", u"Tag:", None))
         self.label_3.setText(QCoreApplication.translate("Form", u"Answer:", None))
         self.lblId.setText(QCoreApplication.translate("Form", u"ID", None))
-#if QT_CONFIG(tooltip)
-        self.btnSave.setToolTip(QCoreApplication.translate("Form", u"Save", None))
-#endif // QT_CONFIG(tooltip)
-        self.btnSave.setText(QCoreApplication.translate("Form", u"&Save", None))
-#if QT_CONFIG(shortcut)
-        self.btnSave.setShortcut(QCoreApplication.translate("Form", u"Ctrl+S", None))
-#endif // QT_CONFIG(shortcut)
     # retranslateUi
 

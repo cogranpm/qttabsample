@@ -14,8 +14,10 @@ from collections import namedtuple
 
 class QuestionFormView(QWidget):
 
-    def __init__(self):
+    def __init__(self, parent):
         QWidget.__init__(self)
+        # a reference to the top level window that created this
+        self.parent = parent
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         tags = ['collections', 'other', 'functional']
@@ -27,9 +29,9 @@ class QuestionFormView(QWidget):
         data = []
         self.table = self.ui.questionView
         self.ui.btnAdd.clicked.connect(self.add_click)
-        self.ui.btnSave.clicked.connect(self.save_click)
         self.ui.btnDelete.clicked.connect(self.delete_click)
-        self.ui.btnSave.setEnabled(False)
+        self.parent.enable_save(False)
+        self.parent.enable_delete(False)
 
         self.ui.btnSoundTest.clicked.connect(self.sound_test_click)
         self.audio_recording = False
@@ -76,11 +78,18 @@ class QuestionFormView(QWidget):
 
         self.model.dataChanged.connect(self.data_changed_handler)
 
+    def save(self):
+        self.save_click()
 
+    def new(self):
+        pass
 
+    def delete(self):
+        pass
 
     def showEvent(self, event: QShowEvent):
-        print('I am called when form is shown')
+        """ called when the form is shown """
+        self.parent.enable_new(True)
 
     def clear_fields(self):
         self.ui.txtID.setText('')
@@ -94,7 +103,7 @@ class QuestionFormView(QWidget):
 
     @Slot()
     def data_changed_handler(self, top, left, mode):
-        self.ui.btnSave.setEnabled(True)
+        self.parent.enable_save(True)
         print("changes in model detected")
         print("Mode:{mode}".format(mode=mode))
         print("Top:{0}".format(top))
@@ -152,14 +161,12 @@ class QuestionFormView(QWidget):
         # this next line is essential when adding rows
         self.model.row_count = self.model.row_count + 1
         #self.mapper.toLast()
-        self.ui.btnSave.setEnabled(True)
+        self.parent.enable_save(True)
         self.ui.txtBody.setFocus()
         #self.clear_fields()
 
-    @Slot()
     def save_click(self):
         current_index = self.mapper.currentIndex()
-
         # does not keep the type of the data, all becomes a string
         body = self.get_model_data(current_index, 1)
         tag = self.get_model_data(current_index, 2)
@@ -170,7 +177,8 @@ class QuestionFormView(QWidget):
             self.data_table.insert(dict(body= body, tag= tag, answer= answer))
         else:
             self.data_table.upsert(dict(id=record_id, body= body, tag= tag, answer= answer), ['id'])
-        self.ui.btnSave.setEnabled(False)
+
+        self.parent.enable_save(False)
 
     def get_model_data(self, row, column):
         index: QModelIndex = self.mapper.model().index(row, column)

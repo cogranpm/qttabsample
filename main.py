@@ -24,7 +24,12 @@ class MainWindow(QMainWindow):
         self.ui.actionQuit.triggered.connect(QApplication.quit)
         self.ui.actionChristmas_Tree.triggered.connect(self.handle_action_christmas_tree)
         self.ui.actionDatabase_Test.triggered.connect(self.handle_action_database_test)
-        QObject.connect(self.ui.tabWidget, SIGNAL('tabCloseRequested(int)'), self.closeTab)
+        self.ui.actionSave.triggered.connect(self.handle_action_save)
+        self.ui.actionDelete.triggered.connect(self.handle_action_delete)
+        self.ui.actionNew.triggered.connect(self.handle_action_new)
+        self.ui.tabWidget.tabCloseRequested.connect(self.closeTab)
+        # this is old school style
+        # QObject.connect(self.ui.tabWidget, SIGNAL('tabCloseRequested(int)'), self.closeTab)
 
         # view, navTree holds model instance, navModel
         # self.ui.navTree.setModel(self.navModel)
@@ -33,11 +38,34 @@ class MainWindow(QMainWindow):
         self.selection_model = self.ui.navTree.selectionModel()
         self.selection_model.selectionChanged.connect(self.navigationselected)
 
+        # keep the dictionary of views (inherit from QWidget) with a integer key that are in tabs
+        self.tab_instances = {}
+
         #self.ui.navTree.show()
+
+    @Slot()
+    def handle_action_save(self):
+        view = self.get_current_view()
+        if view is not None:
+            view.save()
+
+    @Slot()
+    def handle_action_new(self):
+        view = self.get_current_view()
+        if view is not None:
+            view.new()
+
+    @Slot()
+    def handle_action_delete(self):
+        view = self.get_current_view()
+        if view is not None:
+            view.delete()
 
     @Slot(int)
     def closeTab(self, index):
         self.ui.tabWidget.removeTab(index)
+        if index in self.tab_instances:
+            del self.tab_instances[index]
 
     @Slot()
     def addTabClick(self):
@@ -45,12 +73,16 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def handle_action_christmas_tree(self):
-        tab_index = self.ui.tabWidget.addTab(ChristmasTreeView(), "Graphics View")
+        view = ChristmasTreeView()
+        tab_index = self.ui.tabWidget.addTab(view, "Graphics View")
+        self.tab_instances[tab_index] = view
         self.ui.tabWidget.setCurrentIndex(tab_index)
 
     @Slot()
     def handle_action_database_test(self):
-        new_index = self.ui.tabWidget.addTab(QuestionFormView(), "Questions")
+        view = QuestionFormView(self)
+        new_index = self.ui.tabWidget.addTab(view, "Questions")
+        self.tab_instances[new_index] = view
         self.ui.tabWidget.setCurrentIndex(new_index)
 
 
@@ -59,6 +91,23 @@ class MainWindow(QMainWindow):
         items = selected.indexes()
         for x in items:
             print(x.data())
+
+    def enable_save(self, enable_state):
+        self.ui.actionSave.setEnabled(enable_state)
+
+    def enable_new(self, enable_state):
+        self.ui.actionNew.setEnabled(enable_state)
+
+    def enable_delete(self, enable_state):
+        self.ui.actionDelete.setEnabled(enable_state)
+
+    def get_current_view(self):
+        """ returns the current view instance based on the currently selected tab index """
+        view = None
+        current_index = self.ui.tabWidget.currentIndex()
+        if current_index >= 0 and current_index in self.tab_instances:
+            view = self.tab_instances[current_index]
+        return view
 
 
 def run():
