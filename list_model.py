@@ -54,6 +54,11 @@ class ListModel(QAbstractTableModel):
             return True
         return False
 
+    # how is this done in a model agnostic manner
+    #def insertRows(self, row, count, index):
+    #    self.beginInsertRows(index, row, row + count - 1)
+    #    self.endInsertRows()
+    #    return True
 
 
 

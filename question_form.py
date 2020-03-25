@@ -39,18 +39,6 @@ class Ui_Form(object):
 
         self.horizontalLayout.addWidget(self.btnSoundTest)
 
-        self.btnDelete = QPushButton(Form)
-        self.btnDelete.setObjectName(u"btnDelete")
-        self.btnDelete.setMaximumSize(QSize(120, 16777215))
-
-        self.horizontalLayout.addWidget(self.btnDelete)
-
-        self.btnAdd = QPushButton(Form)
-        self.btnAdd.setObjectName(u"btnAdd")
-        self.btnAdd.setMaximumSize(QSize(120, 16777215))
-
-        self.horizontalLayout.addWidget(self.btnAdd)
-
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
@@ -132,11 +120,6 @@ class Ui_Form(object):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.lblHeader.setText(QCoreApplication.translate("Form", u"Questions", None))
         self.btnSoundTest.setText(QCoreApplication.translate("Form", u"Tests", None))
-        self.btnDelete.setText(QCoreApplication.translate("Form", u"&Delete", None))
-        self.btnAdd.setText(QCoreApplication.translate("Form", u"&Add", None))
-#if QT_CONFIG(shortcut)
-        self.btnAdd.setShortcut(QCoreApplication.translate("Form", u"Ctrl+N", None))
-#endif // QT_CONFIG(shortcut)
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"Edit", None))
         self.label.setText(QCoreApplication.translate("Form", u"Question:", None))
         self.label_2.setText(QCoreApplication.translate("Form", u"Tag:", None))

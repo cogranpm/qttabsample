@@ -28,8 +28,6 @@ class QuestionFormView(QWidget):
         # is a list of OrderedDict items
         data = []
         self.table = self.ui.questionView
-        self.ui.btnAdd.clicked.connect(self.add_click)
-        self.ui.btnDelete.clicked.connect(self.delete_click)
         self.parent.enable_save(False)
         self.parent.enable_delete(False)
 
@@ -82,10 +80,10 @@ class QuestionFormView(QWidget):
         self.save_click()
 
     def new(self):
-        pass
+        self.add_click()
 
     def delete(self):
-        pass
+        self.delete_click()
 
     def showEvent(self, event: QShowEvent):
         """ called when the form is shown """
@@ -132,8 +130,8 @@ class QuestionFormView(QWidget):
         selected_row_index: int = self.selections.selectedIndexes()[0].row()
         # selected_data = self.model.data_set[selected_row_index]
         self.mapper.setCurrentIndex(selected_row_index)
+        self.parent.enable_delete(True)
 
-    @Slot()
     def delete_click(self):
         if not (self.mapper.currentIndex() >= 0 and self.mapper.currentIndex() < len(self.model.data_set)):
             return
@@ -148,19 +146,22 @@ class QuestionFormView(QWidget):
             self.clear_fields()
 
 
-    @Slot()
     def add_click(self):
         #new_question = {"body": self.ui.txtBody.text(), "tag": self.ui.cboTags.itemData(self.ui.cboTags.currentIndex()),
         #               "answer": self.ui.txtAnswer.text()}
         today = date.today()
         print(date.fromtimestamp(time.time()))
-        new_question = {'id': -1, 'body': '', 'tag': '', 'answer': ''}
+        new_question = {'id': None, 'body': None, 'tag': None, 'answer': None}
         self.model.beginInsertRows(QModelIndex(), self.model.row_count, self.model.row_count)
         self.model.data_set.append(new_question)
         self.model.endInsertRows()
         # this next line is essential when adding rows
         self.model.row_count = self.model.row_count + 1
+
+        # How to select the new row in the list (not sure)
+        # sorting means the following is invalid
         #self.mapper.toLast()
+
         self.parent.enable_save(True)
         self.ui.txtBody.setFocus()
         #self.clear_fields()
@@ -173,7 +174,7 @@ class QuestionFormView(QWidget):
         answer = self.get_model_data(current_index, 3)
         record_id = self.get_model_data(current_index, 0)
         # lets update the database
-        if record_id == -1:
+        if record_id is None:
             self.data_table.insert(dict(body= body, tag= tag, answer= answer))
         else:
             self.data_table.upsert(dict(id=record_id, body= body, tag= tag, answer= answer), ['id'])
